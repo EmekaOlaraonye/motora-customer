@@ -1,0 +1,97 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: transform var(--duration-normal) var(--ease-out),
+              box-shadow var(--duration-normal) var(--ease-out);
+}
+
+.card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.card:focus-within { box-shadow: var(--focus-ring); }
+
+.cover { position: relative; overflow: hidden; }
+
+.coverImage { width: 100%; }
+
+.card:hover .coverImage img { transform: scale(1.05); }
+
+.coverScrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgb(11 18 32 / 0.75) 0%, rgb(11 18 32 / 0.1) 60%);
+  pointer-events: none;
+}
+
+.coverBadge { position: absolute; top: var(--space-3); left: var(--space-3); }
+
+.coverName {
+  position: absolute;
+  left: var(--space-4);
+  right: var(--space-4);
+  bottom: var(--space-3);
+  color: var(--white);
+}
+
+.name {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: var(--leading-snug);
+}
+
+.nameLink { color: inherit; }
+.nameLink::after { content: ''; position: absolute; inset: 0; }
+
+.area {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  color: rgb(255 255 255 / 0.85);
+  margin-top: 2px;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  flex: 1;
+}
+
+.description {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--text-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.specialties { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.metaItem { display: inline-flex; align-items: center; gap: var(--space-1); }
+
+.metaItem svg { color: var(--grey-400); }
+
+.rating { display: inline-flex; align-items: center; gap: var(--space-1); font-weight: 600; color: var(--navy); }
+
+.ratingStar { color: var(--amber); fill: var(--amber); }
+
+.listings { margin-left: auto; font-weight: 600; color: var(--blue); }

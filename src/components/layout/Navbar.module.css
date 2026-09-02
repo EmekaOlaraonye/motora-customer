@@ -1,0 +1,183 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  background-color: rgb(255 255 255 / 0.82);
+  backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--duration-normal) var(--ease-out),
+              box-shadow var(--duration-normal) var(--ease-out);
+}
+
+/* Only earns a border once the page has moved beneath it. */
+.scrolled {
+  border-bottom-color: var(--border);
+  box-shadow: var(--shadow-xs);
+}
+
+.inner {
+  height: var(--navbar-height);
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+/* --- Brand ---------------------------------------------------------- */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--navy);
+  flex-shrink: 0;
+}
+.brand:hover { color: var(--navy); }
+
+/* Sits beside the logo plate as a quiet locality cue. */
+.tagline {
+  align-self: center;
+  padding-left: var(--space-3);
+  border-left: 1px solid var(--border);
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  line-height: 1;
+}
+
+/* --- Desktop navigation --------------------------------------------- */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex: 1;
+}
+
+.link {
+  position: relative;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: color var(--duration-fast) var(--ease-out),
+              background-color var(--duration-fast) var(--ease-out);
+}
+
+.link:hover { color: var(--navy); background-color: var(--grey-100); }
+
+.linkActive { color: var(--blue-700); font-weight: 600; }
+
+.linkActive::after {
+  content: '';
+  position: absolute;
+  left: var(--space-3);
+  right: var(--space-3);
+  bottom: 2px;
+  height: 2px;
+  border-radius: var(--radius-pill);
+  background-color: var(--blue);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* --- Saved counter --------------------------------------------------- */
+.saved {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  transition: color var(--duration-fast) var(--ease-out),
+              background-color var(--duration-fast) var(--ease-out);
+}
+.saved:hover { background-color: var(--grey-100); color: var(--navy); }
+.savedActive { color: var(--blue); }
+
+.savedCount {
+  position: absolute;
+  top: 4px;
+  right: 3px;
+  min-width: 17px;
+  height: 17px;
+  padding-inline: 4px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-pill);
+  background-color: var(--blue);
+  color: var(--white);
+  font-size: 10px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  border: 2px solid var(--white);
+  box-sizing: content-box;
+}
+
+/* --- Mobile ---------------------------------------------------------- */
+.menuButton {
+  display: none;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  color: var(--navy);
+}
+.menuButton:hover { background-color: var(--grey-100); }
+
+@media (max-width: 900px) {
+  .nav { display: none; }
+  .menuButton { display: grid; }
+  .desktopOnly { display: none; }
+  .inner { gap: var(--space-4); }
+}
+
+@media (max-width: 480px) {
+  .tagline { display: none; }
+}
+
+/* --- Mobile drawer contents ------------------------------------------ */
+.drawerNav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.drawerLink {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: var(--navy);
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+.drawerLink:hover { background-color: var(--grey-100); }
+
+.drawerLinkActive {
+  background-color: var(--blue-50);
+  color: var(--blue-700);
+  font-weight: 600;
+}
+
+.drawerDivider {
+  height: 1px;
+  background-color: var(--border);
+  margin-block: var(--space-4);
+}
+
+.drawerMeta {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  padding-inline: var(--space-4);
+  line-height: var(--leading-normal);
+}

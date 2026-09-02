@@ -1,0 +1,158 @@
+.panel {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  border-bottom: 1px solid var(--border);
+}
+
+.monogram {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  background: linear-gradient(140deg, var(--navy) 0%, var(--navy-700) 100%);
+  color: var(--white);
+  font-size: var(--text-lg);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.identity { min-width: 0; flex: 1; }
+
+.name {
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--navy);
+  line-height: var(--leading-snug);
+}
+
+.nameLink { color: inherit; }
+.nameLink:hover { color: var(--blue-700); }
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-top: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.rating { display: inline-flex; align-items: center; gap: 3px; font-weight: 600; color: var(--navy); }
+.ratingStar { color: var(--amber); fill: var(--amber); }
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  border-bottom: 1px solid var(--border);
+}
+
+.detailRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: var(--leading-snug);
+}
+
+.detailRow svg { color: var(--grey-400); flex-shrink: 0; margin-top: 2px; }
+
+.detailLink { color: var(--text-secondary); }
+.detailLink:hover { color: var(--blue); }
+
+.openNow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--green-700);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+}
+
+.actionRow { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+
+.footerNote {
+  padding: var(--space-4) var(--space-5);
+  background-color: var(--grey-50);
+  border-top: 1px solid var(--border);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  line-height: var(--leading-normal);
+}
+
+.viewAll {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--blue);
+  margin-top: var(--space-2);
+}
+
+/* --- Sticky behaviour on desktop -------------------------------------------- */
+.sticky {
+  position: sticky;
+  top: calc(var(--navbar-height) + var(--space-6));
+}
+
+/* --- Mobile contact bar ------------------------------------------------------ */
+.mobileBar {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: calc(var(--z-header) - 1);
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  padding-bottom: max(var(--space-3), env(safe-area-inset-bottom));
+  background-color: rgb(255 255 255 / 0.96);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -4px 16px rgb(11 18 32 / 0.06);
+}
+
+.mobileBarPrice {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.mobileBarPriceValue {
+  font-size: var(--text-lg);
+  font-weight: 800;
+  color: var(--navy);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.mobileBarLabel { font-size: var(--text-2xs); color: var(--text-muted); }
+
+.mobileBarActions { display: flex; gap: var(--space-2); flex: 1; justify-content: flex-end; }
+
+@media (max-width: 1023px) {
+  .mobileBar { display: flex; }
+}

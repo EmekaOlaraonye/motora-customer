@@ -1,0 +1,126 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
+}
+
+.button:disabled,
+.button[aria-disabled='true'] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Press feedback — small enough to feel like a button, not a toy. */
+.button:active:not(:disabled) { transform: translateY(1px); }
+
+/* --- Sizes ---------------------------------------------------------- */
+.sm {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-sm);
+  min-height: 36px;
+}
+
+.md {
+  padding: var(--space-3) var(--space-5);
+  font-size: var(--text-sm);
+  min-height: 44px;
+}
+
+.lg {
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--text-base);
+  min-height: 52px;
+}
+
+/* --- Variants ------------------------------------------------------- */
+.primary {
+  background-color: var(--blue);
+  color: var(--white);
+  box-shadow: 0 1px 2px rgb(37 99 235 / 0.3);
+}
+.primary:hover:not(:disabled) {
+  background-color: var(--blue-700);
+  box-shadow: 0 4px 12px rgb(37 99 235 / 0.28);
+}
+
+.secondary {
+  background-color: var(--surface);
+  color: var(--navy);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-xs);
+}
+.secondary:hover:not(:disabled) {
+  border-color: var(--blue);
+  color: var(--blue-700);
+  box-shadow: var(--shadow-sm);
+}
+
+.navy {
+  background-color: var(--navy);
+  color: var(--white);
+}
+.navy:hover:not(:disabled) { background-color: var(--navy-700); }
+
+.ghost {
+  background-color: transparent;
+  color: var(--text-secondary);
+}
+.ghost:hover:not(:disabled) {
+  background-color: var(--grey-100);
+  color: var(--navy);
+}
+
+.success {
+  background-color: var(--green);
+  color: var(--white);
+}
+.success:hover:not(:disabled) { background-color: var(--green-700); }
+
+/* Sits on dark sections — the hero and the footer. */
+.onDark {
+  background-color: rgb(255 255 255 / 0.1);
+  color: var(--white);
+  border-color: rgb(255 255 255 / 0.22);
+  backdrop-filter: blur(8px);
+}
+.onDark:hover:not(:disabled) {
+  background-color: rgb(255 255 255 / 0.18);
+  border-color: rgb(255 255 255 / 0.4);
+}
+
+.fullWidth { width: 100%; }
+
+/* --- Loading -------------------------------------------------------- */
+.spinner {
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  animation: spin 700ms linear infinite;
+}
+
+.loadingLabel { opacity: 0.9; }
+
+/* --- Icon-only ------------------------------------------------------ */
+.iconOnly {
+  padding: 0;
+  aspect-ratio: 1;
+}
+.iconOnly.sm { width: 36px; }
+.iconOnly.md { width: 44px; }
+.iconOnly.lg { width: 52px; }

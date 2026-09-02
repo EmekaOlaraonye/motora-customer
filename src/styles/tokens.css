@@ -1,0 +1,132 @@
+/* ==========================================================================
+   Motora — design tokens
+   The single source of truth for colour, type, spacing, radius and elevation.
+   Components must consume these variables rather than raw values.
+   ========================================================================== */
+
+:root {
+  /* --- Brand palette -------------------------------------------------- */
+  --navy:        #0B1220;
+  --blue:        #2563EB;
+  --off-white:   #F8FAFC;
+  --slate:       #64748B;
+  --green:       #22C55E;
+
+  /* Tints & shades derived from the brand palette */
+  --navy-800:    #111A2C;
+  --navy-700:    #1B2740;
+  --navy-600:    #27334D;
+  --blue-700:    #1D4ED8;
+  --blue-600:    #2563EB;
+  --blue-500:    #3B82F6;
+  --blue-100:    #DBEAFE;
+  --blue-50:     #EFF6FF;
+  --green-700:   #15803D;
+  --green-50:    #ECFDF5;
+  --amber:       #F59E0B;
+  --amber-50:    #FFFBEB;
+  --red:         #DC2626;
+  --red-50:      #FEF2F2;
+
+  /* Neutral ramp — cool greys tuned to sit beside the navy */
+  --white:       #FFFFFF;
+  --grey-50:     #F8FAFC;
+  --grey-100:    #F1F5F9;
+  --grey-200:    #E2E8F0;
+  --grey-300:    #CBD5E1;
+  --grey-400:    #94A3B8;
+  --grey-500:    #64748B;
+  --grey-600:    #475569;
+  --grey-700:    #334155;
+
+  /* --- Semantic surface & text --------------------------------------- */
+  --bg:              var(--off-white);
+  --surface:         var(--white);
+  --surface-sunken:  var(--grey-100);
+  --surface-inverse: var(--navy);
+
+  --text:            var(--navy);
+  --text-secondary:  var(--grey-600);
+  --text-muted:      var(--slate);
+  --text-inverse:    var(--white);
+  --text-on-navy:    #CBD5E1;
+
+  --border:          var(--grey-200);
+  --border-strong:   var(--grey-300);
+  --focus-ring:      0 0 0 3px rgb(37 99 235 / 0.35);
+
+  /* --- Typography ----------------------------------------------------- */
+  --font-sans: 'Inter', 'Inter var', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+               Roboto, Helvetica, Arial, sans-serif;
+
+  --text-2xs:  0.6875rem;  /* 11px */
+  --text-xs:   0.75rem;    /* 12px */
+  --text-sm:   0.875rem;   /* 14px */
+  --text-base: 1rem;       /* 16px */
+  --text-lg:   1.125rem;   /* 18px */
+  --text-xl:   1.25rem;    /* 20px */
+  --text-2xl:  1.5rem;     /* 24px */
+  --text-3xl:  1.875rem;   /* 30px */
+  --text-4xl:  2.25rem;    /* 36px */
+  --text-5xl:  3rem;       /* 48px */
+
+  --leading-tight: 1.15;
+  --leading-snug:  1.35;
+  --leading-normal: 1.6;
+
+  --tracking-tight: -0.02em;
+  --tracking-wide:  0.04em;
+
+  /* --- Spacing scale (4px base) --------------------------------------- */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* --- Radius --------------------------------------------------------- */
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   14px;
+  --radius-xl:   20px;
+  --radius-2xl:  28px;
+  --radius-pill: 999px;
+
+  /* --- Elevation ------------------------------------------------------ */
+  --shadow-xs: 0 1px 2px rgb(11 18 32 / 0.05);
+  --shadow-sm: 0 1px 3px rgb(11 18 32 / 0.06), 0 1px 2px rgb(11 18 32 / 0.04);
+  --shadow-md: 0 4px 12px rgb(11 18 32 / 0.07), 0 2px 4px rgb(11 18 32 / 0.04);
+  --shadow-lg: 0 12px 28px rgb(11 18 32 / 0.10), 0 4px 8px rgb(11 18 32 / 0.05);
+  --shadow-xl: 0 24px 48px rgb(11 18 32 / 0.14), 0 8px 16px rgb(11 18 32 / 0.06);
+
+  /* --- Motion --------------------------------------------------------- */
+  --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast:   140ms;
+  --duration-normal: 240ms;
+  --duration-slow:   400ms;
+
+  /* --- Layout --------------------------------------------------------- */
+  --container:      1240px;
+  --container-wide: 1440px;
+  --navbar-height:  72px;
+  --z-header:  100;
+  --z-drawer:  200;
+  --z-modal:   300;
+  --z-toast:   400;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --navbar-height: 60px;
+    --text-4xl: 1.875rem;
+    --text-5xl: 2.25rem;
+  }
+}

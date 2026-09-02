@@ -1,0 +1,244 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: transform var(--duration-normal) var(--ease-out),
+              box-shadow var(--duration-normal) var(--ease-out),
+              border-color var(--duration-normal) var(--ease-out);
+  animation: fade-in-up var(--duration-normal) var(--ease-out) both;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  border-color: transparent;
+}
+
+/* The whole card is clickable, but only the title is a real link, so the
+   accessibility tree stays clean and keyboard users get one stop per card. */
+.card:focus-within {
+  border-color: var(--blue);
+  box-shadow: var(--focus-ring);
+}
+
+.sold { opacity: 0.82; }
+
+/* --- Media ----------------------------------------------------------- */
+.media {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--grey-100);
+}
+
+.image { width: 100%; }
+
+.card:hover .image img {
+  transform: scale(1.06);
+}
+
+.mediaOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgb(11 18 32 / 0.28) 0%,
+    rgb(11 18 32 / 0) 32%,
+    rgb(11 18 32 / 0) 62%,
+    rgb(11 18 32 / 0.45) 100%
+  );
+  pointer-events: none;
+}
+
+.topLeft {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  max-width: calc(100% - 76px);
+}
+
+.saveButton {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgb(255 255 255 / 0.92);
+  color: var(--slate);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(4px);
+  transition: transform var(--duration-fast) var(--ease-out),
+              color var(--duration-fast) var(--ease-out),
+              background-color var(--duration-fast) var(--ease-out);
+}
+
+.saveButton:hover { transform: scale(1.08); color: var(--red); }
+
+.saveButton[data-saved='true'] {
+  color: var(--red);
+  background-color: var(--white);
+}
+
+.saveButton[data-saved='true'] svg { fill: currentColor; }
+
+.photoCount {
+  position: absolute;
+  bottom: var(--space-3);
+  right: var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 3px var(--space-2);
+  border-radius: var(--radius-sm);
+  background-color: rgb(11 18 32 / 0.65);
+  backdrop-filter: blur(4px);
+  color: var(--white);
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Body ------------------------------------------------------------ */
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  flex: 1;
+}
+
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.price {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--navy);
+  font-variant-numeric: tabular-nums;
+}
+
+.negotiable {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.titleLink {
+  color: var(--navy);
+  text-decoration: none;
+}
+
+/* Expands the hit area to the whole card without nesting interactive elements. */
+.titleLink::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.title {
+  font-size: var(--text-base);
+  font-weight: 700;
+  line-height: var(--leading-snug);
+  color: var(--navy);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card:hover .title { color: var(--blue-700); }
+
+.variant {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* --- Specs ----------------------------------------------------------- */
+.specs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2) var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+}
+
+.spec {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  min-width: 0;
+}
+
+.spec svg { color: var(--grey-400); flex-shrink: 0; }
+
+.specValue {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --- Garage footer ---------------------------------------------------- */
+.garage {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--border);
+  background-color: var(--grey-50);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  min-width: 0;
+}
+
+.garageName {
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.verifiedTick {
+  color: var(--blue);
+  flex-shrink: 0;
+}
+
+.garageLocation {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-left: auto;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* --- Compact (horizontal) variant ------------------------------------- */
+@media (min-width: 641px) {
+  .compact { flex-direction: row; }
+  .compact .media { width: 240px; flex-shrink: 0; }
+  .compact .image { height: 100%; }
+  .compact .body { padding: var(--space-5); }
+  .compact .garage { display: none; }
+}
