@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FilterPanel, FilterSidebar } from '../components/search/FilterPanel';
 import {
   ActiveFilterChips,
@@ -12,8 +12,11 @@ import { Pagination } from '../components/ui/Pagination';
 import { EmptyState, ErrorState } from '../components/ui/StateBlock';
 import { VehicleGrid } from '../components/vehicle/VehicleGrid';
 import { useDebouncedValue } from '../hooks/useDebouncedValue';
+import { usePageMeta, siteOrigin } from '../hooks/usePageMeta';
 import { useVehicleQuery } from '../hooks/useVehicleQuery';
 import { useVehicleSearch } from '../hooks/useVehicles';
+import { buildBrowseMeta } from '../utils/meta';
+import { searchParamsFromQuery } from '../utils/queryParams';
 import { countActiveFilters } from '../utils/vehicleQuery';
 import styles from './VehiclesPage.module.css';
 
@@ -39,6 +42,18 @@ export function VehiclesPage() {
     setKeyword(query.q ?? '');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query.q]);
+
+  const meta = useMemo(
+    () =>
+      buildBrowseMeta(
+        query,
+        siteOrigin(),
+        searchParamsFromQuery(query).toString(),
+        search.data?.total,
+      ),
+    [query, search.data?.total],
+  );
+  usePageMeta(meta);
 
   const result = search.data;
   const vehicles = result?.items ?? [];

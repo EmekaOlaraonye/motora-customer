@@ -1,6 +1,8 @@
 import { ButtonLink } from '../components/ui/Button';
 import { Icon } from '../components/ui/Icon';
 import styles from './SimplePage.module.css';
+import { usePageMeta, siteOrigin } from '../hooks/usePageMeta';
+import { buildStaticMeta } from '../utils/meta';
 
 const STEPS = [
   {
@@ -26,6 +28,10 @@ const CHECKLIST = [
 ];
 
 export function AboutPage() {
+  usePageMeta(
+    buildStaticMeta(siteOrigin(), '/about', 'How Motora works', "Motora is a marketplace, not a dealership. We bring the stock of garages across Gaborone into one place so you can find the right car without driving from yard to yard.", false),
+  );
+
   return (
     <div className="page-enter">
       <section className={styles.header}>

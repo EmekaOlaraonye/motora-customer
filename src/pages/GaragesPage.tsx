@@ -5,6 +5,8 @@ import { Skeleton } from '../components/ui/Skeleton';
 import { EmptyState, ErrorState } from '../components/ui/StateBlock';
 import { useGarages } from '../hooks/useGarages';
 import styles from './GaragesPage.module.css';
+import { usePageMeta, siteOrigin } from '../hooks/usePageMeta';
+import { buildStaticMeta } from '../utils/meta';
 
 export function GaragesPage() {
   const { data: garages, loading, error, retry } = useGarages();
@@ -24,6 +26,10 @@ export function GaragesPage() {
 
   const totalListings = (garages ?? []).reduce((sum, garage) => sum + garage.listingCount, 0);
   const verifiedCount = (garages ?? []).filter((garage) => garage.verified).length;
+
+  usePageMeta(
+    buildStaticMeta(siteOrigin(), '/garages', 'Garages and dealers in Gaborone', "Every car on Motora is sold by one of these garages. Browse a dealer to see its full floor, opening hours and contact details.", false),
+  );
 
   return (
     <div className="page-enter">

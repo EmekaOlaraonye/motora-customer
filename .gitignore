@@ -31,3 +31,4 @@ dist-ssr
 # Build/tooling caches
 node_modules/.vite
 *.tsbuildinfo
+dist-meta

@@ -10,6 +10,8 @@ import { useGarages } from '../hooks/useGarages';
 import { useFeaturedVehicles, useVehicleSearch } from '../hooks/useVehicles';
 import { browseHref } from '../utils/queryParams';
 import styles from './HomePage.module.css';
+import { usePageMeta, siteOrigin } from '../hooks/usePageMeta';
+import { buildStaticMeta } from '../utils/meta';
 
 const HERO_IMAGE =
   'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&crop=focalpoint&fp-x=0.64&fp-y=0.72&fp-z=1.25&w=2000&h=1125&q=80';
@@ -43,6 +45,10 @@ export function HomePage() {
   const garageCount = garages.data?.length ?? 0;
   const vehicleCount = catalogue.data?.total ?? 0;
   const areaCount = GABORONE_AREAS.length;
+
+  usePageMeta(
+    buildStaticMeta(siteOrigin(), '/', 'Find your next car in Gaborone', "Browse used cars from verified garages and dealers across Gaborone. Compare listings, see the full details, and contact the seller directly.", false),
+  );
 
   return (
     <>

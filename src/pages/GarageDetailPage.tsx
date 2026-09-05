@@ -15,10 +15,12 @@ import { Skeleton } from '../components/ui/Skeleton';
 import { EmptyState, ErrorState, StateBlock } from '../components/ui/StateBlock';
 import { VehicleGrid } from '../components/vehicle/VehicleGrid';
 import { useGarage } from '../hooks/useGarages';
+import { usePageMeta, siteOrigin } from '../hooks/usePageMeta';
 import { useVehicleQuery } from '../hooks/useVehicleQuery';
 import { useVehicleSearch } from '../hooks/useVehicles';
 import { pluralise, toTelHref, toWhatsAppHref } from '../utils/format';
-import { useState } from 'react';
+import { buildGarageMeta } from '../utils/meta';
+import { useMemo, useState } from 'react';
 import styles from './GarageDetailPage.module.css';
 
 function monogram(name: string): string {
@@ -40,6 +42,12 @@ export function GarageDetailPage() {
   const search = useVehicleSearch(garage.data ? scopedQuery : {});
 
   const [filtersOpen, setFiltersOpen] = useState(false);
+
+  const meta = useMemo(
+    () => (garage.data ? buildGarageMeta(garage.data, siteOrigin()) : undefined),
+    [garage.data],
+  );
+  usePageMeta(meta);
 
   if (garage.loading) {
     return (

@@ -10,6 +10,8 @@ import { useVehiclesByIds } from '../hooks/useVehicles';
 import { formatPrice, vehicleName } from '../utils/format';
 import { ROW_GROUPS, buildCompareRows, countDifferences } from '../utils/compare';
 import styles from './ComparePage.module.css';
+import { usePageMeta, siteOrigin } from '../hooks/usePageMeta';
+import { buildStaticMeta } from '../utils/meta';
 
 export function ComparePage() {
   const { compareIds, removeCompare, clearCompare, count } = useCompare();
@@ -26,6 +28,10 @@ export function ComparePage() {
   const columnTemplate = `minmax(132px, 168px) repeat(${count}, minmax(212px, 1fr))${
     showAddColumn ? ' minmax(150px, 180px)' : ''
   }`;
+
+  usePageMeta(
+    buildStaticMeta(siteOrigin(), '/compare', 'Compare cars side by side', "Put up to four cars next to each other and see exactly where they differ on price, mileage, condition and seller.", true),
+  );
 
   return (
     <div className="page-enter">

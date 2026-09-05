@@ -8,6 +8,8 @@ import { useVehiclesByIds } from '../hooks/useVehicles';
 import { useNavigate } from 'react-router-dom';
 import { pluralise } from '../utils/format';
 import styles from './SimplePage.module.css';
+import { usePageMeta, siteOrigin } from '../hooks/usePageMeta';
+import { buildStaticMeta } from '../utils/meta';
 
 export function SavedPage() {
   const { savedIds, clearSaved, count } = useSavedVehicles();
@@ -26,6 +28,10 @@ export function SavedPage() {
     clearSaved();
     showToast({ tone: 'info', title: 'Saved list cleared' });
   }
+
+  usePageMeta(
+    buildStaticMeta(siteOrigin(), '/saved', 'Your saved cars', "The cars you have shortlisted on Motora, kept on this device.", true),
+  );
 
   return (
     <div className="page-enter">

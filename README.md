@@ -31,6 +31,8 @@ error states.
 | `npm run dev` | Dev server with hot reload |
 | `npm run build` | Type-check then build to `dist/` |
 | `npm run preview` | Serve the production build locally |
+| `npm run build:meta` | Build the server-side metadata bundle |
+| `npm run serve` | Serve the build with link-preview injection |
 | `npm run lint` | Lint with oxlint |
 
 ## Architecture
@@ -107,6 +109,46 @@ without a better direction — fuel type, colour, body type — are never ranked
 
 The table is a CSS grid rather than a `<table>`, so the label column can stick
 while the vehicle columns scroll horizontally on a phone.
+
+### Link previews
+
+Listings get shared into WhatsApp groups, and WhatsApp does not execute
+JavaScript. Neither do Facebook, LinkedIn or Slack. A client-rendered SPA
+therefore shows the same generic card for every listing unless something puts
+the right tags in the served HTML first.
+
+Three pieces:
+
+1. [`src/utils/meta.ts`](src/utils/meta.ts) builds the metadata. It is free of
+   React, the DOM and Vite globals so it runs unchanged in the browser and on a
+   server. `previewImageUrl` re-crops the listing photo to the 1200×630 that
+   crawlers expect — the gallery original is the wrong shape and often too
+   large for WhatsApp to accept.
+2. [`usePageMeta`](src/hooks/usePageMeta.ts) applies it in the browser. That
+   covers tab titles, bookmarks and crawlers that do run scripts, such as
+   Googlebot. It owns the JSON-LD slot outright, so a client-side navigation
+   never leaves structured data describing the previous page.
+3. [`server/meta-injector.mjs`](server/meta-injector.mjs) rewrites the HTML
+   head per URL, calling the same builders through
+   [`src/server/meta-entry.ts`](src/server/meta-entry.ts). A preview card can
+   never describe a listing differently from the page itself.
+
+```bash
+npm run build && npm run build:meta && npm run serve
+```
+
+Sold listings and filtered searches are served `noindex`, since neither belongs
+in a search index.
+
+**Deploying this.** The injector is a reference host, not the intended
+production setup. In production the same two exports — `resolveMeta` and
+`metaTags` — belong in an edge middleware in front of the static build
+(Vercel, Netlify or Cloudflare all support this shape). Plain static hosting
+will serve the generic card and previews will not work.
+
+**Testing a real preview.** Crawlers need a public URL, so a local server is
+not enough. Expose it with a tunnel and paste the link into a WhatsApp chat
+with yourself, or use Facebook's Sharing Debugger to force a re-scrape.
 
 ### Search state lives in the URL
 

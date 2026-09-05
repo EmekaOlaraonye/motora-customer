@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { EnquiryForm } from '../components/enquiry/EnquiryForm';
 import { GaragePanel, MobileContactBar } from '../components/garage/GaragePanel';
@@ -13,6 +13,7 @@ import { VehicleGrid } from '../components/vehicle/VehicleGrid';
 import { MAX_COMPARE, useCompare } from '../context/CompareContext';
 import { useSavedVehicles } from '../context/SavedVehiclesContext';
 import { useToast } from '../context/ToastContext';
+import { usePageMeta, siteOrigin } from '../hooks/usePageMeta';
 import { useRelatedVehicles, useVehicle } from '../hooks/useVehicles';
 import type { VehicleWithGarage } from '../types';
 import {
@@ -25,6 +26,7 @@ import {
   vehicleName,
   vehicleTitle,
 } from '../utils/format';
+import { buildVehicleMeta } from '../utils/meta';
 import { browseHref } from '../utils/queryParams';
 import styles from './VehicleDetailPage.module.css';
 
@@ -91,6 +93,14 @@ export function VehicleDetailPage() {
   const { showToast } = useToast();
 
   const [enquiryOpen, setEnquiryOpen] = useState(false);
+
+  // Built as soon as the listing resolves. The server injector produces the
+  // same tags for crawlers, which cannot run this.
+  const meta = useMemo(
+    () => (vehicle ? buildVehicleMeta(vehicle, siteOrigin()) : undefined),
+    [vehicle],
+  );
+  usePageMeta(meta);
 
   if (loading) return <DetailSkeleton />;
 

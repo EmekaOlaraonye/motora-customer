@@ -1,7 +1,13 @@
 import { ButtonLink } from '../components/ui/Button';
 import styles from './SimplePage.module.css';
+import { usePageMeta, siteOrigin } from '../hooks/usePageMeta';
+import { buildStaticMeta } from '../utils/meta';
 
 export function NotFoundPage() {
+  usePageMeta(
+    buildStaticMeta(siteOrigin(), '/404', 'Page not found', "The page you were looking for is not here. Everything currently for sale is still one click away.", true),
+  );
+
   return (
     <div className={`container ${styles.notFound} page-enter`}>
       <span className={styles.notFoundCode}>404</span>
