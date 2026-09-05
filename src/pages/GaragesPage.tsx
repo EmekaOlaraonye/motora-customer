@@ -28,7 +28,8 @@ export function GaragesPage() {
   return (
     <div className="page-enter">
       <section className={styles.header}>
-        <div className="container">
+        <div className="container page-head page-head-dark">
+          <span className="page-head-eyebrow">Who is selling</span>
           <h1 className={styles.title}>Garages and dealers in Gaborone</h1>
           <p className={styles.subtitle}>
             Every car on Motora is sold by one of these businesses. Browse a garage to see its full

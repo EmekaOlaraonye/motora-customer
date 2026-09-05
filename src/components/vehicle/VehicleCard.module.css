@@ -13,10 +13,29 @@
 }
 
 .card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
   border-color: transparent;
 }
+
+/* The road motif, drawn across the card edge on hover. */
+.card::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background-image: var(--road-dash);
+  background-size: 24px 3px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-normal) var(--ease-out);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.card:hover::after { transform: scaleX(1); }
 
 /* The whole card is clickable, but only the title is a real link, so the
    accessibility tree stays clean and keyboard users get one stop per card. */
@@ -124,9 +143,12 @@
 }
 
 .price {
-  font-size: var(--text-2xl);
+  font-family: var(--font-display);
+  font-stretch: var(--display-stretch-wide);
+  font-size: 1.75rem;
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
+  line-height: 1;
   color: var(--navy);
   font-variant-numeric: tabular-nums;
 }
@@ -153,8 +175,9 @@
 
 .title {
   font-size: var(--text-base);
-  font-weight: 700;
+  font-weight: 650;
   line-height: var(--leading-snug);
+  letter-spacing: -0.015em;
   color: var(--navy);
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -187,6 +210,7 @@
   align-items: center;
   gap: var(--space-2);
   font-size: var(--text-xs);
+  font-weight: 500;
   color: var(--text-secondary);
   min-width: 0;
 }
@@ -213,7 +237,8 @@
 }
 
 .garageName {
-  font-weight: 600;
+  font-weight: 650;
+  letter-spacing: 0.01em;
   color: var(--text-secondary);
   white-space: nowrap;
   overflow: hidden;

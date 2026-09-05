@@ -29,7 +29,8 @@ export function AboutPage() {
   return (
     <div className="page-enter">
       <section className={styles.header}>
-        <div className="container">
+        <div className="container page-head">
+          <span className="page-head-eyebrow">About Motora</span>
           <h1 className={styles.title}>How Motora works</h1>
           <p className={styles.subtitle}>
             Motora is a marketplace, not a dealership. We bring the stock of garages across Gaborone

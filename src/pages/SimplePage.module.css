@@ -5,10 +5,10 @@
 }
 
 .title {
-  font-size: var(--text-4xl);
-  font-weight: 800;
-  letter-spacing: -0.03em;
+  font-size: var(--display-md);
+  text-transform: uppercase;
   color: var(--navy);
+  max-width: 16ch;
 }
 
 .subtitle {
@@ -78,12 +78,11 @@
 .stepText { font-size: var(--text-sm); color: var(--text-muted); line-height: var(--leading-normal); }
 
 .sectionTitle {
-  font-size: var(--text-2xl);
-  font-weight: 800;
-  letter-spacing: -0.03em;
+  font-size: var(--display-sm);
+  text-transform: uppercase;
   color: var(--navy);
   margin-bottom: var(--space-4);
-  margin-top: var(--space-10);
+  margin-top: var(--space-12);
 }
 
 .body {
@@ -118,7 +117,9 @@
 }
 
 .notFoundCode {
-  font-size: clamp(4rem, 14vw, 8rem);
+  font-family: var(--font-display);
+  font-stretch: var(--display-stretch-wide);
+  font-size: clamp(5rem, 18vw, 11rem);
   font-weight: 800;
   letter-spacing: -0.05em;
   line-height: 1;

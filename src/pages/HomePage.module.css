@@ -51,13 +51,31 @@
 }
 
 .title {
-  font-size: clamp(2.25rem, 5.5vw, 3.75rem);
-  font-weight: 800;
-  letter-spacing: -0.035em;
-  line-height: 1.05;
-  max-width: 20ch;
-  margin-bottom: var(--space-5);
+  font-size: var(--display-xl);
+  font-stretch: var(--display-stretch-wide);
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+  max-width: 14ch;
+  text-wrap: balance;
+  margin-bottom: var(--space-6);
   animation: fade-in-up var(--duration-slow) var(--ease-out) 60ms both;
+}
+
+/* The road rule from the logo, drawn under the headline. */
+.titleRule {
+  width: min(420px, 60%);
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background-image: var(--road-dash);
+  background-size: 24px 4px;
+  margin-bottom: var(--space-6);
+  animation: road-draw var(--duration-slow) var(--ease-out) 240ms both;
+}
+
+@keyframes road-draw {
+  from { opacity: 0; transform: scaleX(0); transform-origin: left; }
+  to   { opacity: 1; transform: scaleX(1); transform-origin: left; }
 }
 
 .titleAccent {
@@ -69,6 +87,7 @@
 
 .subtitle {
   font-size: var(--text-lg);
+  font-weight: 400;
   line-height: var(--leading-normal);
   color: rgb(203 213 225 / 0.9);
   max-width: 56ch;
@@ -96,16 +115,22 @@
 .stat { display: flex; flex-direction: column; gap: var(--space-1); }
 
 .statValue {
-  font-size: var(--text-3xl);
+  font-family: var(--font-display);
+  font-stretch: var(--display-stretch-wide);
+  font-size: clamp(2rem, 4.5vw, 3.25rem);
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
+  line-height: 1;
   color: var(--white);
   font-variant-numeric: tabular-nums;
 }
 
 .statLabel {
-  font-size: var(--text-sm);
-  color: rgb(148 163 184 / 0.9);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgb(148 163 184 / 0.85);
 }
 
 /* --- Section shell ------------------------------------------------------ */
@@ -114,22 +139,47 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: var(--space-6);
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-10);
   flex-wrap: wrap;
+  position: relative;
+  padding-top: var(--space-5);
+}
+
+/* Every section opens with the road rule, so the motif paces the whole page. */
+.sectionHead::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 61px;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background-image: var(--road-dash);
+  background-size: 24px 4px;
+}
+
+.sectionEyebrow {
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: var(--space-3);
 }
 
 .sectionTitle {
-  font-size: var(--text-3xl);
-  font-weight: 800;
-  letter-spacing: -0.03em;
+  font-size: var(--display-md);
+  text-transform: uppercase;
   color: var(--navy);
+  max-width: 18ch;
 }
 
 .sectionSubtitle {
-  margin-top: var(--space-2);
+  margin-top: var(--space-4);
   color: var(--text-muted);
   font-size: var(--text-base);
-  max-width: 62ch;
+  max-width: 58ch;
 }
 
 /* --- Body-type tiles ----------------------------------------------------- */
@@ -139,48 +189,75 @@
   gap: var(--space-4);
 }
 
+/* Type-led tiles. A repeated identical icon added nothing, so the body type
+   itself does the work and the whole tile inverts on hover. */
 .bodyTile {
+  position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-3);
-  padding: var(--space-5);
+  align-items: flex-end;
+  min-height: 108px;
+  padding: var(--space-4) var(--space-4) var(--space-4);
   background-color: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   color: var(--navy);
-  transition: transform var(--duration-normal) var(--ease-out),
-              box-shadow var(--duration-normal) var(--ease-out),
+  overflow: hidden;
+  transition: background-color var(--duration-normal) var(--ease-out),
+              color var(--duration-normal) var(--ease-out),
+              transform var(--duration-normal) var(--ease-out),
               border-color var(--duration-normal) var(--ease-out);
 }
 
+.bodyTile::before {
+  content: '';
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-4);
+  width: 37px;
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background-image: var(--road-dash);
+  background-size: 24px 3px;
+  transition: width var(--duration-normal) var(--ease-out),
+              background-image var(--duration-normal) var(--ease-out);
+}
+
 .bodyTile:hover {
+  background-color: var(--navy);
+  border-color: var(--navy);
+  color: var(--white);
   transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--blue-100);
-  color: var(--navy);
 }
 
-.bodyIcon {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-md);
-  background-color: var(--blue-50);
-  color: var(--blue);
-  transition: background-color var(--duration-normal) var(--ease-out),
-              color var(--duration-normal) var(--ease-out);
+.bodyTile:hover::before {
+  width: 61px;
+  background-image: var(--road-dash-light);
 }
 
-.bodyTile:hover .bodyIcon { background-color: var(--blue); color: var(--white); }
-
-.bodyName { font-weight: 700; font-size: var(--text-sm); }
-
-.bodyCount { font-size: var(--text-xs); color: var(--text-muted); margin-top: -6px; }
+.bodyName {
+  font-family: var(--font-display);
+  font-stretch: var(--display-stretch);
+  font-weight: 800;
+  font-size: var(--text-lg);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
 
 /* --- Value propositions ---------------------------------------------------- */
-.trustSection { background-color: var(--surface); border-block: 1px solid var(--border); }
+/* A full dark break, so the page alternates instead of running as one long
+   stretch of off-white. */
+.trustSection {
+  background-color: var(--navy);
+  color: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+
+.trustSection .sectionTitle { color: var(--white); }
+.trustSection .sectionSubtitle { color: rgb(203 213 225 / 0.85); }
+.trustSection .sectionHead::before { background-image: var(--road-dash-light); }
+.trustSection .sectionEyebrow { color: #93C5FD; }
 
 .trustGrid {
   display: grid;
@@ -196,19 +273,45 @@
   width: 48px;
   height: 48px;
   border-radius: var(--radius-lg);
-  background-color: var(--navy);
+  background-color: rgb(255 255 255 / 0.1);
+  border: 1px solid rgb(255 255 255 / 0.18);
   color: var(--white);
 }
 
-.trustItem:nth-child(2) .trustIcon { background-color: var(--blue); }
-.trustItem:nth-child(3) .trustIcon { background-color: var(--green); }
+.trustItem:nth-child(2) .trustIcon { background-color: var(--blue); border-color: var(--blue); }
+.trustItem:nth-child(3) .trustIcon { background-color: var(--green); border-color: var(--green); }
 
-.trustTitle { font-size: var(--text-lg); font-weight: 700; color: var(--navy); }
+.trustTitle {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--white);
+}
 
 .trustText {
   font-size: var(--text-sm);
   line-height: var(--leading-normal);
-  color: var(--text-muted);
+  color: rgb(203 213 225 / 0.8);
+}
+
+.trustItem {
+  position: relative;
+  padding-top: var(--space-6);
+  border-top: 1px solid rgb(255 255 255 / 0.14);
+}
+
+.trustNumber {
+  position: absolute;
+  top: var(--space-5);
+  right: 0;
+  font-family: var(--font-display);
+  font-stretch: var(--display-stretch-wide);
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: rgb(255 255 255 / 0.14);
+  font-variant-numeric: tabular-nums;
 }
 
 /* --- Garages strip ---------------------------------------------------------- */
@@ -249,10 +352,9 @@
 .ctaInner { position: relative; z-index: 1; display: contents; }
 
 .ctaTitle {
-  font-size: var(--text-4xl);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  max-width: 22ch;
+  font-size: var(--display-lg);
+  text-transform: uppercase;
+  max-width: 16ch;
 }
 
 .ctaText {

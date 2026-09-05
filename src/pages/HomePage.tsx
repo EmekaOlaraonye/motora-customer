@@ -59,9 +59,11 @@ export function HomePage() {
           </span>
 
           <h1 className={styles.title}>
-            Find your next car from{' '}
-            <span className={styles.titleAccent}>garages across Gaborone</span>
+            Find your next car in{' '}
+            <span className={styles.titleAccent}>Gaborone</span>
           </h1>
+
+          <div className={styles.titleRule} aria-hidden="true" />
 
           <p className={styles.subtitle}>
             Every listing on Motora comes from a real garage or dealer in the city. Compare what is
@@ -97,6 +99,7 @@ export function HomePage() {
         <div className="container">
           <div className={styles.sectionHead}>
             <div>
+              <span className={styles.sectionEyebrow}>Start here</span>
               <h2 className={styles.sectionTitle}>Browse by body type</h2>
               <p className={styles.sectionSubtitle}>
                 Whether you need a bakkie for the plot or a small hatch for the commute into town.
@@ -111,9 +114,6 @@ export function HomePage() {
                 to={browseHref({ bodyType: [bodyType] })}
                 className={styles.bodyTile}
               >
-                <span className={styles.bodyIcon}>
-                  <Icon name="car" size={22} />
-                </span>
                 <span className={styles.bodyName}>{bodyType}</span>
               </Link>
             ))}
@@ -125,6 +125,7 @@ export function HomePage() {
         <div className="container">
           <div className={styles.sectionHead}>
             <div>
+              <span className={styles.sectionEyebrow}>Fresh stock</span>
               <h2 className={styles.sectionTitle}>Featured this week</h2>
               <p className={styles.sectionSubtitle}>
                 Hand-picked listings from garages with a strong track record on Motora.
@@ -152,6 +153,7 @@ export function HomePage() {
         <div className="container">
           <div className={styles.sectionHead}>
             <div>
+              <span className={styles.sectionEyebrow}>Why Motora</span>
               <h2 className={styles.sectionTitle}>Buying a car should not feel like a gamble</h2>
               <p className={styles.sectionSubtitle}>
                 Motora exists to make the Gaborone used-car market easier to read.
@@ -160,8 +162,11 @@ export function HomePage() {
           </div>
 
           <div className={styles.trustGrid}>
-            {TRUST_POINTS.map((point) => (
+            {TRUST_POINTS.map((point, index) => (
               <div key={point.title} className={styles.trustItem}>
+                <span className={styles.trustNumber} aria-hidden="true">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
                 <span className={styles.trustIcon}>
                   <Icon name={point.icon} size={22} />
                 </span>
@@ -177,6 +182,7 @@ export function HomePage() {
         <div className="container">
           <div className={styles.sectionHead}>
             <div>
+              <span className={styles.sectionEyebrow}>Who is selling</span>
               <h2 className={styles.sectionTitle}>Garages on Motora</h2>
               <p className={styles.sectionSubtitle}>
                 Established dealers and independent yards from Broadhurst to Mogoditshane.

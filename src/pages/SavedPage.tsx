@@ -20,7 +20,8 @@ export function SavedPage() {
   return (
     <div className="page-enter">
       <section className={styles.header}>
-        <div className="container">
+        <div className="container page-head">
+          <span className="page-head-eyebrow">Your shortlist</span>
           <h1 className={styles.title}>Your saved cars</h1>
           <p className={styles.subtitle}>
             {count > 0

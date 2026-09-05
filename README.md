@@ -110,6 +110,23 @@ Brand palette, type scale, spacing, radii, shadows and motion are defined once
 in [`src/styles/tokens.css`](src/styles/tokens.css). Components consume the
 variables and never hard-code values.
 
+### Type and voice
+
+Two families do different jobs:
+
+- **Archivo** (variable, width axis) carries page and section headings, prices
+  and stat figures — run wide and uppercase, it gives the product a poster
+  voice instead of the default card-grid look. Applied automatically to `h1`
+  and `h2`, plus the `.display` and `.numeric` utilities.
+- **Inter** carries the interface — body copy, labels, card titles, controls —
+  where legibility at small sizes matters more than character.
+
+The **road rule** is the signature graphic element: the dashed centre line
+running through the logo's "M", reused as `--road-dash`. It opens every section
+header, underlines the hero, marks the body-type tiles, and sweeps across a
+vehicle card on hover. It is the one motif that makes a screenshot recognisable
+as Motora.
+
 | Token | Value | Used for |
 | --- | --- | --- |
 | `--navy` | `#0B1220` | Headers, footer, strong text, dark sections |

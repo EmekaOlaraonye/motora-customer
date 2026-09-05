@@ -5,14 +5,14 @@
 }
 
 .title {
-  font-size: var(--text-4xl);
-  font-weight: 800;
-  letter-spacing: -0.03em;
+  font-size: var(--display-md);
+  text-transform: uppercase;
   color: var(--navy);
+  max-width: 16ch;
 }
 
 .subtitle {
-  margin-top: var(--space-2);
+  margin-top: var(--space-4);
   color: var(--text-muted);
   max-width: 60ch;
 }

@@ -60,7 +60,8 @@ export function VehiclesPage() {
   return (
     <div className="page-enter">
       <section className={styles.header}>
-        <div className="container">
+        <div className="container page-head">
+          <span className="page-head-eyebrow">Every listing</span>
           <h1 className={styles.title}>Cars for sale in Gaborone</h1>
           <p className={styles.subtitle}>
             Browse every vehicle currently listed on Motora. Narrow it down by make, budget, body
