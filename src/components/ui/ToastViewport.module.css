@@ -1,7 +1,7 @@
 .viewport {
   position: fixed;
   z-index: var(--z-toast);
-  bottom: var(--space-6);
+  bottom: calc(var(--space-6) + var(--tray-height, 0px));
   right: var(--space-6);
   display: flex;
   flex-direction: column;
@@ -12,7 +12,7 @@
 
 @media (max-width: 640px) {
   .viewport {
-    bottom: max(var(--space-4), env(safe-area-inset-bottom));
+    bottom: calc(max(var(--space-4), env(safe-area-inset-bottom)) + var(--tray-height, 0px));
     right: var(--space-4);
     left: var(--space-4);
     width: auto;

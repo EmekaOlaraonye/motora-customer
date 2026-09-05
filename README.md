@@ -88,6 +88,26 @@ export interface VehicleRepository {
 `VehicleQuery` is deliberately flat and serialisable, so the same object maps
 onto a REST query string, a Firestore query, and the URL search params.
 
+### Comparison
+
+Comparing is a separate set from the saved shortlist, and deliberately so:
+saving means "keep this for later", comparing means "weigh these against each
+other now". A customer routinely saves eight cars and compares three.
+
+[`CompareContext`](src/context/CompareContext.tsx) holds up to four vehicle ids
+in localStorage. [`CompareTray`](src/components/compare/CompareTray.tsx) is
+mounted in the layout so a set survives navigation between browse, garage and
+detail pages — which is exactly when candidates get collected.
+
+[`buildCompareRows`](src/utils/compare.ts) produces the table. Each row knows
+whether its values are identical across the set, so "show differences only" is
+a filter rather than a re-query, and rows with an objectively better direction
+(cheaper, fewer kilometres, newer, verified) mark their winners. Attributes
+without a better direction — fuel type, colour, body type — are never ranked.
+
+The table is a CSS grid rather than a `<table>`, so the label column can stick
+while the vehicle columns scroll horizontally on a phone.
+
 ### Search state lives in the URL
 
 `useVehicleQuery` reads and writes the browse page's filters as search params.

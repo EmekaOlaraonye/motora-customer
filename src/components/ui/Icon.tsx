@@ -46,7 +46,9 @@ export type IconName =
   | 'garage'
   | 'paint'
   | 'engine'
-  | 'sliders';
+  | 'sliders'
+  | 'compare'
+  | 'plus';
 
 const PATHS: Record<IconName, ReactElement> = {
   search: (
@@ -210,6 +212,13 @@ const PATHS: Record<IconName, ReactElement> = {
       <circle cx="9" cy="16.5" r="2.1" />
     </>
   ),
+  compare: (
+    <>
+      <rect x="3.6" y="5" width="7" height="14" rx="1.8" />
+      <rect x="13.4" y="5" width="7" height="14" rx="1.8" />
+    </>
+  ),
+  plus: <path d="M12 5v14M5 12h14" />,
 };
 
 export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'name'> {

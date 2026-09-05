@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
+import { useCompare } from '../../context/CompareContext';
 import { useSavedVehicles } from '../../context/SavedVehiclesContext';
 import { Logo } from '../common/Logo';
 import { ButtonLink } from '../ui/Button';
@@ -17,6 +18,7 @@ export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { count } = useSavedVehicles();
+  const { count: compareCount } = useCompare();
   const location = useLocation();
 
   // Close the mobile menu whenever navigation happens. The functional update is
@@ -131,6 +133,16 @@ export function Navbar() {
           >
             <Icon name="heart" size={18} />
             Saved cars{count > 0 ? ` (${count})` : ''}
+          </NavLink>
+
+          <NavLink
+            to="/compare"
+            className={({ isActive }) =>
+              [styles.drawerLink, isActive ? styles.drawerLinkActive : ''].filter(Boolean).join(' ')
+            }
+          >
+            <Icon name="compare" size={18} />
+            Compare{compareCount > 0 ? ` (${compareCount})` : ''}
           </NavLink>
         </nav>
 

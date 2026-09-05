@@ -5,3 +5,7 @@
 }
 
 .main { flex: 1; }
+
+/* The compare tray is fixed to the viewport, so the page reserves room for it
+   rather than letting it cover the footer. */
+.shell { padding-bottom: var(--tray-height, 0px); }

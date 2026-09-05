@@ -102,6 +102,33 @@
 
 .saveButton:hover { transform: scale(1.08); color: var(--red); }
 
+/* Sits under the save heart: saving is "keep for later", comparing is
+   "weigh this against others now". */
+.compareButton {
+  position: absolute;
+  top: calc(var(--space-3) + 44px);
+  right: var(--space-3);
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgb(255 255 255 / 0.92);
+  color: var(--slate);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(4px);
+  transition: transform var(--duration-fast) var(--ease-out),
+              color var(--duration-fast) var(--ease-out),
+              background-color var(--duration-fast) var(--ease-out);
+}
+
+.compareButton:hover { transform: scale(1.08); color: var(--blue); }
+
+.compareButton[data-active='true'] {
+  background-color: var(--blue);
+  color: var(--white);
+}
+
 .saveButton[data-saved='true'] {
   color: var(--red);
   background-color: var(--white);

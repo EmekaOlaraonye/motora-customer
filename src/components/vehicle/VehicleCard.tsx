@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { MAX_COMPARE, useCompare } from '../../context/CompareContext';
 import { useSavedVehicles } from '../../context/SavedVehiclesContext';
 import { useToast } from '../../context/ToastContext';
 import type { VehicleWithGarage } from '../../types';
@@ -20,9 +21,11 @@ export interface VehicleCardProps {
 
 export function VehicleCard({ vehicle, compact = false, priority = false, index = 0 }: VehicleCardProps) {
   const { isSaved, toggleSaved } = useSavedVehicles();
+  const { isCompared, toggleCompare } = useCompare();
   const { showToast } = useToast();
 
   const saved = isSaved(vehicle.id);
+  const compared = isCompared(vehicle.id);
   const cover = vehicle.images[0];
 
   function onToggleSave() {
@@ -30,6 +33,25 @@ export function VehicleCard({ vehicle, compact = false, priority = false, index 
     showToast({
       tone: nowSaved ? 'success' : 'info',
       title: nowSaved ? 'Saved to your list' : 'Removed from your list',
+      description: `${vehicle.year} ${vehicleName(vehicle)}`,
+    });
+  }
+
+  function onToggleCompare() {
+    const { added, rejected } = toggleCompare(vehicle.id);
+
+    if (rejected) {
+      showToast({
+        tone: 'info',
+        title: `You can compare up to ${MAX_COMPARE} cars`,
+        description: 'Remove one from the compare bar to add this instead.',
+      });
+      return;
+    }
+
+    showToast({
+      tone: added ? 'success' : 'info',
+      title: added ? 'Added to compare' : 'Removed from compare',
       description: `${vehicle.year} ${vehicleName(vehicle)}`,
     });
   }
@@ -77,6 +99,17 @@ export function VehicleCard({ vehicle, compact = false, priority = false, index 
           aria-label={saved ? 'Remove from saved cars' : 'Save this car'}
         >
           <Icon name="heart" size={18} />
+        </button>
+
+        <button
+          type="button"
+          className={styles.compareButton}
+          data-active={compared}
+          onClick={onToggleCompare}
+          aria-pressed={compared}
+          aria-label={compared ? 'Remove from comparison' : 'Add to comparison'}
+        >
+          <Icon name="compare" size={17} />
         </button>
 
         {vehicle.images.length > 1 ? (

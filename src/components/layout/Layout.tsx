@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
+import { CompareTray } from '../compare/CompareTray';
 import { ToastViewport } from '../ui/ToastViewport';
 import { Footer } from './Footer';
 import { Navbar } from './Navbar';
@@ -30,6 +31,7 @@ export function Layout() {
       </main>
 
       <Footer />
+      <CompareTray />
       <ToastViewport />
     </div>
   );

@@ -10,6 +10,7 @@ import { Skeleton } from '../components/ui/Skeleton';
 import { ErrorState, StateBlock } from '../components/ui/StateBlock';
 import { VehicleGallery } from '../components/vehicle/VehicleGallery';
 import { VehicleGrid } from '../components/vehicle/VehicleGrid';
+import { MAX_COMPARE, useCompare } from '../context/CompareContext';
 import { useSavedVehicles } from '../context/SavedVehiclesContext';
 import { useToast } from '../context/ToastContext';
 import { useRelatedVehicles, useVehicle } from '../hooks/useVehicles';
@@ -86,6 +87,7 @@ export function VehicleDetailPage() {
   const related = useRelatedVehicles(vehicle?.id, 4);
 
   const { isSaved, toggleSaved } = useSavedVehicles();
+  const { isCompared, toggleCompare } = useCompare();
   const { showToast } = useToast();
 
   const [enquiryOpen, setEnquiryOpen] = useState(false);
@@ -117,6 +119,7 @@ export function VehicleDetailPage() {
   if (!vehicle) return null;
 
   const saved = isSaved(vehicle.id);
+  const compared = isCompared(vehicle.id);
   const title = vehicleTitle(vehicle);
 
   function onToggleSave() {
@@ -125,6 +128,26 @@ export function VehicleDetailPage() {
     showToast({
       tone: nowSaved ? 'success' : 'info',
       title: nowSaved ? 'Saved to your list' : 'Removed from your list',
+      description: title,
+    });
+  }
+
+  function onToggleCompare() {
+    if (!vehicle) return;
+    const { added, rejected } = toggleCompare(vehicle.id);
+
+    if (rejected) {
+      showToast({
+        tone: 'info',
+        title: `You can compare up to ${MAX_COMPARE} cars`,
+        description: 'Remove one from the compare bar to add this instead.',
+      });
+      return;
+    }
+
+    showToast({
+      tone: added ? 'success' : 'info',
+      title: added ? 'Added to compare' : 'Removed from compare',
       description: title,
     });
   }
@@ -187,6 +210,14 @@ export function VehicleDetailPage() {
                   aria-label={saved ? 'Remove from saved cars' : 'Save this car'}
                 >
                   {saved ? 'Saved' : 'Save'}
+                </Button>
+                <Button
+                  variant="secondary"
+                  icon="compare"
+                  onClick={onToggleCompare}
+                  aria-pressed={compared}
+                >
+                  {compared ? 'Comparing' : 'Compare'}
                 </Button>
                 <Button variant="secondary" icon="share" onClick={onShare} aria-label="Share this listing" />
               </div>
