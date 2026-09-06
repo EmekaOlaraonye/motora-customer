@@ -90,6 +90,26 @@ export interface VehicleRepository {
 `VehicleQuery` is deliberately flat and serialisable, so the same object maps
 onto a REST query string, a Firestore query, and the URL search params.
 
+### Finance estimates
+
+Most people buying a P350,000 bakkie here shop against what their bank will
+approve each month, not against the sticker price.
+[`src/utils/finance.ts`](src/utils/finance.ts) turns a price into that number:
+standard amortisation, with an optional balloon, which is common on local
+vehicle finance and the reason two quotes on the same car can look very
+different.
+
+It is arithmetic, not an offer. Motora is not a lender or a broker. Every
+assumption — deposit, term, rate, balloon — is set and visible to the
+customer, the default rate is a deliberately round placeholder rather than a
+scraped market figure, and the panel states that banks add initiation fees,
+admin fees and required insurance, so a real quote will come out higher.
+Nothing here should ever be presented as an approval or as advice to borrow.
+
+Assumptions persist per device via
+[`useFinanceSettings`](src/hooks/useFinanceSettings.ts), so someone comparing
+three bakkies does not re-enter their deposit on each one.
+
 ### Comparison
 
 Comparing is a separate set from the saved shortlist, and deliberately so:

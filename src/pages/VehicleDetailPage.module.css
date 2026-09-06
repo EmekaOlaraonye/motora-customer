@@ -85,6 +85,32 @@
 
 .negotiable { font-size: var(--text-sm); color: var(--text-muted); font-weight: 500; }
 
+/* Links down to the calculator; most buyers here shop on the monthly figure. */
+.financeHint {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  padding: var(--space-1) var(--space-2);
+  margin-left: calc(var(--space-2) * -1);
+  border-radius: var(--radius-sm);
+  transition: color var(--duration-fast) var(--ease-out),
+              background-color var(--duration-fast) var(--ease-out);
+}
+
+.financeHint strong { color: var(--blue); font-weight: 700; }
+.financeHint:hover { color: var(--navy); background-color: var(--blue-50); }
+
+.financeIntro {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: var(--leading-normal);
+  margin-top: calc(var(--space-2) * -1);
+  margin-bottom: var(--space-5);
+  max-width: 60ch;
+}
+
 .badges { display: flex; gap: var(--space-2); flex-wrap: wrap; }
 
 .metaRow {
@@ -157,6 +183,7 @@
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: var(--space-6);
+  scroll-margin-top: calc(var(--navbar-height) + var(--space-4));
 }
 
 .sectionTitle {

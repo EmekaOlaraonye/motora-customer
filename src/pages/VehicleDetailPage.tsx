@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { EnquiryForm } from '../components/enquiry/EnquiryForm';
+import { FinanceCalculator } from '../components/finance/FinanceCalculator';
 import { GaragePanel, MobileContactBar } from '../components/garage/GaragePanel';
 import { Badge, StatusBadge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
@@ -27,6 +28,7 @@ import {
   vehicleTitle,
 } from '../utils/format';
 import { buildVehicleMeta } from '../utils/meta';
+import { estimateMonthly } from '../utils/finance';
 import { browseHref } from '../utils/queryParams';
 import styles from './VehicleDetailPage.module.css';
 
@@ -130,6 +132,7 @@ export function VehicleDetailPage() {
 
   const saved = isSaved(vehicle.id);
   const compared = isCompared(vehicle.id);
+  const monthlyEstimate = estimateMonthly(vehicle.price);
   const title = vehicleTitle(vehicle);
 
   function onToggleSave() {
@@ -236,6 +239,12 @@ export function VehicleDetailPage() {
             <div className={styles.priceBlock}>
               <span className={styles.price}>{formatPrice(vehicle.price)}</span>
               {vehicle.negotiable ? <span className={styles.negotiable}>Negotiable</span> : null}
+              {monthlyEstimate ? (
+                <a href="#finance" className={styles.financeHint}>
+                  or about <strong>{formatPrice(monthlyEstimate)}</strong> a month
+                  <Icon name="chevron-down" size={14} />
+                </a>
+              ) : null}
             </div>
 
             <div className={styles.badges}>
@@ -279,6 +288,15 @@ export function VehicleDetailPage() {
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>About this vehicle</h2>
             <p className={styles.description}>{vehicle.description}</p>
+          </section>
+
+          <section className={styles.section} id="finance">
+            <h2 className={styles.sectionTitle}>What it costs per month</h2>
+            <p className={styles.financeIntro}>
+              Adjust the deposit, term and rate to match what your bank has offered you. Nothing
+              here is a quote.
+            </p>
+            <FinanceCalculator price={vehicle.price} />
           </section>
 
           <section className={styles.section}>
