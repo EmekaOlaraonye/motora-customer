@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/layout/Layout';
 import { CompareProvider } from './context/CompareContext';
+import { FinanceSettingsProvider } from './context/FinanceSettingsContext';
 import { SavedVehiclesProvider } from './context/SavedVehiclesContext';
 import { ToastProvider } from './context/ToastContext';
 import { AboutPage } from './pages/AboutPage';
@@ -19,19 +20,21 @@ export default function App() {
       <ToastProvider>
         <SavedVehiclesProvider>
           <CompareProvider>
-            <Routes>
-              <Route element={<Layout />}>
-                <Route index element={<HomePage />} />
-                <Route path="/vehicles" element={<VehiclesPage />} />
-                <Route path="/vehicles/:slug" element={<VehicleDetailPage />} />
-                <Route path="/garages" element={<GaragesPage />} />
-                <Route path="/garages/:slug" element={<GarageDetailPage />} />
-                <Route path="/saved" element={<SavedPage />} />
-                <Route path="/compare" element={<ComparePage />} />
-                <Route path="/about" element={<AboutPage />} />
-                <Route path="*" element={<NotFoundPage />} />
-              </Route>
-            </Routes>
+            <FinanceSettingsProvider>
+                <Routes>
+                <Route element={<Layout />}>
+                  <Route index element={<HomePage />} />
+                  <Route path="/vehicles" element={<VehiclesPage />} />
+                  <Route path="/vehicles/:slug" element={<VehicleDetailPage />} />
+                  <Route path="/garages" element={<GaragesPage />} />
+                  <Route path="/garages/:slug" element={<GarageDetailPage />} />
+                  <Route path="/saved" element={<SavedPage />} />
+                  <Route path="/compare" element={<ComparePage />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  <Route path="*" element={<NotFoundPage />} />
+                </Route>
+              </Routes>
+            </FinanceSettingsProvider>
           </CompareProvider>
         </SavedVehiclesProvider>
       </ToastProvider>

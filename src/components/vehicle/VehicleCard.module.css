@@ -180,6 +180,27 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* Sits under the cash price and stays visually subordinate to it: the price
+   is the fact, this is an estimate. */
+.monthly {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-1);
+  margin-top: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.monthly strong { color: var(--blue-700); font-weight: 700; }
+
+.monthlyLabel {
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--grey-400);
+}
+
 .negotiable {
   font-size: var(--text-xs);
   color: var(--text-muted);

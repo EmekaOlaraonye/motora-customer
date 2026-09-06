@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { MAX_COMPARE, useCompare } from '../../context/CompareContext';
+import { useFinanceSettings } from '../../context/FinanceSettingsContext';
 import { useSavedVehicles } from '../../context/SavedVehiclesContext';
 import { useToast } from '../../context/ToastContext';
 import type { VehicleWithGarage } from '../../types';
 import { formatMileage, formatPrice, vehicleName } from '../../utils/format';
+import { calculateFinance } from '../../utils/finance';
 import { SafeImage } from '../common/SafeImage';
 import { Badge, StatusBadge } from '../ui/Badge';
 import { Icon } from '../ui/Icon';
@@ -22,11 +24,28 @@ export interface VehicleCardProps {
 export function VehicleCard({ vehicle, compact = false, priority = false, index = 0 }: VehicleCardProps) {
   const { isSaved, toggleSaved } = useSavedVehicles();
   const { isCompared, toggleCompare } = useCompare();
+  const { settings } = useFinanceSettings();
   const { showToast } = useToast();
 
   const saved = isSaved(vehicle.id);
   const compared = isCompared(vehicle.id);
   const cover = vehicle.images[0];
+
+  // Uses the customer's own assumptions rather than a hidden default, so the
+  // figure on a card always matches the calculator they have already seen.
+  // Suppressed on sold listings, where a repayment figure is just noise.
+  const finance =
+    vehicle.status === 'sold'
+      ? undefined
+      : calculateFinance({
+          price: vehicle.price,
+          deposit: Math.round((vehicle.price * settings.depositPercent) / 100),
+          termMonths: settings.termMonths,
+          annualRate: settings.annualRate,
+          balloonPercent: settings.balloonPercent,
+        });
+
+  const monthly = finance && !finance.invalid ? finance.monthlyPayment : undefined;
 
   function onToggleSave() {
     const nowSaved = toggleSaved(vehicle.id);
@@ -121,9 +140,21 @@ export function VehicleCard({ vehicle, compact = false, priority = false, index 
       </div>
 
       <div className={styles.body}>
-        <div className={styles.priceRow}>
-          <span className={styles.price}>{formatPrice(vehicle.price)}</span>
-          {vehicle.negotiable ? <span className={styles.negotiable}>Negotiable</span> : null}
+        <div>
+          <div className={styles.priceRow}>
+            <span className={styles.price}>{formatPrice(vehicle.price)}</span>
+            {vehicle.negotiable ? <span className={styles.negotiable}>Negotiable</span> : null}
+          </div>
+
+          {monthly ? (
+            <p
+              className={styles.monthly}
+              title={`Estimate only, not a quote. Based on your settings: ${settings.depositPercent}% deposit over ${settings.termMonths} months at ${settings.annualRate}% a year.`}
+            >
+              <span className={styles.monthlyLabel}>est.</span>
+              <strong>{formatPrice(monthly)}</strong> per month
+            </p>
+          ) : null}
         </div>
 
         <div>

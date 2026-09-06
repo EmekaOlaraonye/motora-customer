@@ -1,4 +1,12 @@
-import { useCallback, useEffect, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from 'react';
 import {
   DEFAULT_ANNUAL_RATE,
   DEFAULT_DEPOSIT_PERCENT,
@@ -6,10 +14,14 @@ import {
 } from '../utils/finance';
 
 /**
- * The customer's finance assumptions, remembered between listings.
+ * The customer's finance assumptions.
+ *
+ * Held in one place rather than per component: the estimate now appears on
+ * every vehicle card, and a hook with its own state per card would mean a
+ * separate localStorage write for each one on every change.
  *
  * Someone comparing three bakkies should not have to re-enter their deposit
- * and term on each one. Stored per device; these are assumptions, not personal
+ * and term on each. Stored per device; these are assumptions, not personal
  * financial data, and nothing here is sent anywhere.
  */
 
@@ -28,6 +40,16 @@ export const DEFAULT_SETTINGS: FinanceSettings = {
   annualRate: DEFAULT_ANNUAL_RATE,
   balloonPercent: 0,
 };
+
+interface FinanceSettingsContextValue {
+  settings: FinanceSettings;
+  update: (patch: Partial<FinanceSettings>) => void;
+  reset: () => void;
+  /** True while the settings are still the untouched defaults. */
+  isDefault: boolean;
+}
+
+const FinanceSettingsContext = createContext<FinanceSettingsContextValue | undefined>(undefined);
 
 function readStored(): FinanceSettings {
   try {
@@ -52,7 +74,7 @@ function readStored(): FinanceSettings {
   }
 }
 
-export function useFinanceSettings() {
+export function FinanceSettingsProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState<FinanceSettings>(readStored);
 
   useEffect(() => {
@@ -69,5 +91,29 @@ export function useFinanceSettings() {
 
   const reset = useCallback(() => setSettings(DEFAULT_SETTINGS), []);
 
-  return { settings, update, reset };
+  const value = useMemo(
+    () => ({
+      settings,
+      update,
+      reset,
+      isDefault:
+        settings.depositPercent === DEFAULT_SETTINGS.depositPercent &&
+        settings.termMonths === DEFAULT_SETTINGS.termMonths &&
+        settings.annualRate === DEFAULT_SETTINGS.annualRate &&
+        settings.balloonPercent === DEFAULT_SETTINGS.balloonPercent,
+    }),
+    [settings, update, reset],
+  );
+
+  return (
+    <FinanceSettingsContext.Provider value={value}>{children}</FinanceSettingsContext.Provider>
+  );
+}
+
+export function useFinanceSettings(): FinanceSettingsContextValue {
+  const context = useContext(FinanceSettingsContext);
+  if (!context) {
+    throw new Error('useFinanceSettings must be used within a FinanceSettingsProvider');
+  }
+  return context;
 }

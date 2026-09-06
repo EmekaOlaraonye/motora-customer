@@ -106,9 +106,17 @@ scraped market figure, and the panel states that banks add initiation fees,
 admin fees and required insurance, so a real quote will come out higher.
 Nothing here should ever be presented as an approval or as advice to borrow.
 
-Assumptions persist per device via
-[`useFinanceSettings`](src/hooks/useFinanceSettings.ts), so someone comparing
-three bakkies does not re-enter their deposit on each one.
+The estimate appears twice: as a small line under the price on every vehicle
+card, and as the full calculator on the listing page. Both read the same
+assumptions from
+[`FinanceSettingsContext`](src/context/FinanceSettingsContext.tsx), so a card
+can never disagree with the calculator the customer has already adjusted, and
+the settings persist per device. A context rather than a per-component hook
+because a browse page renders a dozen cards, and each holding its own copy
+would mean a dozen localStorage writes per change.
+
+Cards label the figure `est.` and carry the full assumptions in a tooltip.
+Sold listings show no repayment figure at all.
 
 ### Comparison
 

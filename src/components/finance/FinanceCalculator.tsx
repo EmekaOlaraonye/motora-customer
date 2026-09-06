@@ -1,11 +1,8 @@
 import { useMemo } from 'react';
-import { useFinanceSettings } from '../../hooks/useFinanceSettings';
+import { useFinanceSettings } from '../../context/FinanceSettingsContext';
 import { formatPrice } from '../../utils/format';
 import {
   BALLOON_BOUNDS,
-  DEFAULT_ANNUAL_RATE,
-  DEFAULT_DEPOSIT_PERCENT,
-  DEFAULT_TERM_MONTHS,
   RATE_BOUNDS,
   TERM_OPTIONS,
   calculateFinance,
@@ -21,7 +18,7 @@ import styles from './FinanceCalculator.module.css';
  * number. It is not a quote, an approval, or a recommendation to borrow.
  */
 export function FinanceCalculator({ price }: { price: number }) {
-  const { settings, update, reset } = useFinanceSettings();
+  const { settings, update, reset, isDefault } = useFinanceSettings();
 
   const deposit = Math.round((price * settings.depositPercent) / 100);
 
@@ -36,12 +33,6 @@ export function FinanceCalculator({ price }: { price: number }) {
       }),
     [price, deposit, settings.termMonths, settings.annualRate, settings.balloonPercent],
   );
-
-  const isDefault =
-    settings.depositPercent === DEFAULT_DEPOSIT_PERCENT &&
-    settings.termMonths === DEFAULT_TERM_MONTHS &&
-    settings.annualRate === DEFAULT_ANNUAL_RATE &&
-    settings.balloonPercent === 0;
 
   return (
     <div className={styles.panel}>

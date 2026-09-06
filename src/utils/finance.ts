@@ -117,18 +117,3 @@ export function calculateFinance(inputs: FinanceInputs): FinanceResult {
     invalid: false,
   };
 }
-
-/**
- * The headline figure shown next to a price, using the default assumptions.
- * Returns undefined when an estimate would be meaningless.
- */
-export function estimateMonthly(price: number): number | undefined {
-  const result = calculateFinance({
-    price,
-    deposit: (price * DEFAULT_DEPOSIT_PERCENT) / 100,
-    termMonths: DEFAULT_TERM_MONTHS,
-    annualRate: DEFAULT_ANNUAL_RATE,
-  });
-
-  return result.invalid ? undefined : result.monthlyPayment;
-}

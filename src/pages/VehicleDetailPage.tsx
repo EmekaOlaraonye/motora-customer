@@ -12,6 +12,7 @@ import { ErrorState, StateBlock } from '../components/ui/StateBlock';
 import { VehicleGallery } from '../components/vehicle/VehicleGallery';
 import { VehicleGrid } from '../components/vehicle/VehicleGrid';
 import { MAX_COMPARE, useCompare } from '../context/CompareContext';
+import { useFinanceSettings } from '../context/FinanceSettingsContext';
 import { useSavedVehicles } from '../context/SavedVehiclesContext';
 import { useToast } from '../context/ToastContext';
 import { usePageMeta, siteOrigin } from '../hooks/usePageMeta';
@@ -28,7 +29,7 @@ import {
   vehicleTitle,
 } from '../utils/format';
 import { buildVehicleMeta } from '../utils/meta';
-import { estimateMonthly } from '../utils/finance';
+import { calculateFinance } from '../utils/finance';
 import { browseHref } from '../utils/queryParams';
 import styles from './VehicleDetailPage.module.css';
 
@@ -92,6 +93,7 @@ export function VehicleDetailPage() {
 
   const { isSaved, toggleSaved } = useSavedVehicles();
   const { isCompared, toggleCompare } = useCompare();
+  const { settings } = useFinanceSettings();
   const { showToast } = useToast();
 
   const [enquiryOpen, setEnquiryOpen] = useState(false);
@@ -132,7 +134,15 @@ export function VehicleDetailPage() {
 
   const saved = isSaved(vehicle.id);
   const compared = isCompared(vehicle.id);
-  const monthlyEstimate = estimateMonthly(vehicle.price);
+  // Same assumptions the cards use, so the two never disagree.
+  const financeEstimate = calculateFinance({
+    price: vehicle.price,
+    deposit: Math.round((vehicle.price * settings.depositPercent) / 100),
+    termMonths: settings.termMonths,
+    annualRate: settings.annualRate,
+    balloonPercent: settings.balloonPercent,
+  });
+  const monthlyEstimate = financeEstimate.invalid ? undefined : financeEstimate.monthlyPayment;
   const title = vehicleTitle(vehicle);
 
   function onToggleSave() {
