@@ -131,6 +131,28 @@
   --duration-normal: 240ms;
   --duration-slow:   400ms;
 
+  /* --- Signature layer --------------------------------------------------
+     Shared with the admin app, and derived from the logo rather than
+     invented: the blue-to-cyan sweep across the car, and the glow it sits in.
+
+     Used sparingly and on purpose. A gradient on every surface is wallpaper;
+     a gradient on the one action that matters is a signature. */
+  --cyan:        #22D3EE;
+  --cyan-50:     #ECFEFF;
+
+  --gradient-brand: linear-gradient(135deg, #2563EB 0%, #22D3EE 100%);
+  --gradient-brand-soft:
+    linear-gradient(135deg, rgb(37 99 235 / 0.12) 0%, rgb(34 211 238 / 0.12) 100%);
+
+  /* The glow around the logo, reusable as elevation. */
+  --glow-brand: 0 0 32px rgb(37 99 235 / 0.35);
+  --glow-cyan:  0 0 28px rgb(34 211 238 / 0.30);
+
+  /* Controls are pills; surfaces — cards, panels, dialogs — deliberately keep
+     their corners, so roundness reads as "this is pressable" rather than as a
+     style applied to everything. */
+  --radius-control: var(--radius-pill);
+
   /* --- Road motif ------------------------------------------------------
      The dashed centre line running through the logo's M, reused as the
      product's signature rule. */

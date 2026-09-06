@@ -246,6 +246,22 @@ encodes the rule:
 The browser and app icon, [`public/motora-icon.png`](public/motora-icon.png), is
 the logo's "M" mark flattened onto `--navy`.
 
+### Shape and the brand gradient
+
+Two decisions are shared with the admin app so the two products read as one
+system, and both are derived from the logo rather than invented.
+
+`--gradient-brand` is the blue-to-cyan sweep across the car; `--glow-brand` is
+the glow it sits in. Only the primary button carries them, which is what makes
+it read as *the* action on a screen rather than one blue button among several.
+A gradient on every surface is wallpaper.
+
+`--radius-control` makes every pressable thing a pill — buttons, inputs,
+selects, pagination, the sort control. Surfaces deliberately keep their
+corners, so roundness reads as "this is pressable" rather than as a style
+applied to everything. A multi-line textarea is a surface, not a control, and
+keeps its corners too.
+
 Styling is CSS Modules — scoped by default, no runtime cost, no extra
 dependency. Typography is Inter.
 
