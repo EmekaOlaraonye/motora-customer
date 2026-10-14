@@ -1,3 +1,4 @@
+import { apiDataSource } from './repositories/api';
 import { mockEnquiryRepository } from './repositories/mock/mockEnquiryRepository';
 import { mockGarageRepository } from './repositories/mock/mockGarageRepository';
 import { mockVehicleRepository } from './repositories/mock/mockVehicleRepository';
@@ -6,9 +7,9 @@ import type { DataSource } from './repositories/types';
 /**
  * Single place where the application decides where its data comes from.
  *
- * To move onto the real backend, add a `firebase/` (or `http/`) repository set
- * implementing the same interfaces and select it here via
- * `VITE_DATA_SOURCE=api` — nothing above this file changes.
+ * `VITE_DATA_SOURCE=api` points the app at the Motora backend; anything else
+ * uses the bundled fixtures. Nothing above this file changes either way — both
+ * repository sets satisfy the same interfaces and return the same shapes.
  */
 
 const mockDataSource: DataSource = {
@@ -23,6 +24,8 @@ function resolveDataSource(): DataSource {
   switch (configured) {
     case 'mock':
       return mockDataSource;
+    case 'api':
+      return apiDataSource;
     default:
       console.warn(
         `[motora] Unknown VITE_DATA_SOURCE "${configured}". Falling back to mock data.`,
