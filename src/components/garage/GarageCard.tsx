@@ -52,13 +52,15 @@ export function GarageCard({ garage }: { garage: Garage }) {
         </div>
 
         <div className={styles.meta}>
-          <span className={styles.rating}>
-            <Icon name="star" size={14} className={styles.ratingStar} />
-            {garage.rating.toFixed(1)}
-            <span style={{ fontWeight: 400, color: 'var(--text-muted)' }}>
-              ({garage.reviewCount})
+          {garage.reviewCount > 0 ? (
+            <span className={styles.rating}>
+              <Icon name="star" size={14} className={styles.ratingStar} />
+              {garage.rating.toFixed(1)}
+              <span className={styles.ratingCount}>({garage.reviewCount})</span>
             </span>
-          </span>
+          ) : (
+            <span className={styles.ratingCount}>No reviews yet</span>
+          )}
 
           <span className={styles.listings}>{pluralise(garage.listingCount, 'car')}</span>
         </div>

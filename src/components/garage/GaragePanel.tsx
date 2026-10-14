@@ -57,11 +57,19 @@ export function GaragePanel({ garage, vehicle, onEnquire, sticky = false }: Gara
           </h2>
 
           <div className={styles.metaRow}>
-            <span className={styles.rating}>
-              <Icon name="star" size={13} className={styles.ratingStar} />
-              {garage.rating.toFixed(1)}
-            </span>
-            <span>({garage.reviewCount} reviews)</span>
+            {garage.reviewCount > 0 ? (
+              <Link to={`/garages/${garage.slug}#reviews`} className={styles.ratingLink}>
+                <span className={styles.rating}>
+                  <Icon name="star" size={13} className={styles.ratingStar} />
+                  {garage.rating.toFixed(1)}
+                </span>
+                <span>
+                  ({garage.reviewCount} {garage.reviewCount === 1 ? 'review' : 'reviews'})
+                </span>
+              </Link>
+            ) : (
+              <span className={styles.noReviews}>No reviews yet</span>
+            )}
             {garage.verified ? (
               <Badge tone="brand" icon="shield-check" pill size="sm">
                 Verified

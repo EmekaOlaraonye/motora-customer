@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { SafeImage } from '../components/common/SafeImage';
+import { GarageReviews } from '../components/review/GarageReviews';
 import { FilterPanel } from '../components/search/FilterPanel';
 import {
   ActiveFilterChips,
@@ -120,11 +121,15 @@ export function GarageDetailPage() {
               <h1 className={styles.name}>{data.name}</h1>
 
               <div className={styles.metaRow}>
-                <span className={styles.rating}>
-                  <Icon name="star" size={15} className={styles.ratingStar} />
-                  {data.rating.toFixed(1)}
-                </span>
-                <span>{data.reviewCount} reviews</span>
+                <a href="#reviews" className={styles.ratingLink}>
+                  <span className={styles.rating}>
+                    <Icon name="star" size={15} className={styles.ratingStar} />
+                    {data.rating.toFixed(1)}
+                  </span>
+                  <span>
+                    {data.reviewCount} {data.reviewCount === 1 ? 'review' : 'reviews'}
+                  </span>
+                </a>
                 <span className={styles.metaItem}>
                   <Icon name="map-pin" size={15} />
                   {data.location.area}, {data.location.city}
@@ -300,6 +305,19 @@ export function GarageDetailPage() {
           </>
         )}
       </div>
+
+      <section className={`container ${styles.reviews}`} id="reviews">
+        <div className={styles.listingsHead}>
+          <div>
+            <h2 className={styles.listingsTitle}>What buyers say</h2>
+            <p className={styles.listingsSubtitle}>
+              Reviews left by customers who dealt with {data.name}.
+            </p>
+          </div>
+        </div>
+
+        <GarageReviews garageId={data.id} garageName={data.name} />
+      </section>
 
       <Drawer
         open={filtersOpen}

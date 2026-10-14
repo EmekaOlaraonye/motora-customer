@@ -118,6 +118,23 @@ would mean a dozen localStorage writes per change.
 Cards label the figure `est.` and carry the full assumptions in a tooltip.
 Sold listings show no repayment figure at all.
 
+### Reviews
+
+A star rating with nothing readable behind it is a weak trust signal at best,
+so a garage's `rating` and `reviewCount` are **derived from the reviews that
+actually exist** rather than carried on the fixture — see
+[`catalogue.ts`](src/services/repositories/mock/catalogue.ts). Every score on
+the site links to the reviews that produced it.
+
+The distribution bars are filters, not decoration: the one-star row is usually
+the first thing a cautious buyer wants to read, so it is one click away.
+Garage replies render inline with the review they answer, since how a business
+handles a complaint says more than the complaint does.
+
+Reviews follow the same repository seam as everything else —
+[`ReviewRepository`](src/services/repositories/types.ts) with mock and API
+implementations.
+
 ### Comparison
 
 Comparing is a separate set from the saved shortlist, and deliberately so:

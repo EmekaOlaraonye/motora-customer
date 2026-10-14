@@ -2,6 +2,10 @@ import type {
   Enquiry,
   EnquiryPayload,
   Garage,
+  Paginated,
+  Review,
+  ReviewQuery,
+  ReviewSummary,
   Vehicle,
   VehicleQuery,
   VehicleSearchResult,
@@ -32,6 +36,13 @@ export interface GarageRepository {
   getById(id: string, signal?: AbortSignal): Promise<Garage>;
 }
 
+export interface ReviewRepository {
+  /** Reviews for one garage, sorted and paged. */
+  list(query: ReviewQuery, signal?: AbortSignal): Promise<Paginated<Review>>;
+  /** The rating distribution, computed over every review for the garage. */
+  summary(garageId: string, signal?: AbortSignal): Promise<ReviewSummary>;
+}
+
 export interface EnquiryRepository {
   create(payload: EnquiryPayload, signal?: AbortSignal): Promise<Enquiry>;
 }
@@ -39,6 +50,7 @@ export interface EnquiryRepository {
 export interface DataSource {
   vehicles: VehicleRepository;
   garages: GarageRepository;
+  reviews: ReviewRepository;
   enquiries: EnquiryRepository;
 }
 

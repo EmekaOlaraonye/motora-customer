@@ -2,6 +2,10 @@ import type {
   Enquiry,
   EnquiryPayload,
   Garage,
+  Paginated,
+  Review,
+  ReviewQuery,
+  ReviewSummary,
   VehicleQuery,
   VehicleSearchResult,
   VehicleWithGarage,
@@ -10,6 +14,7 @@ import type {
   DataSource,
   EnquiryRepository,
   GarageRepository,
+  ReviewRepository,
   VehicleRepository,
 } from '../types';
 import { get, post, queryString } from './httpClient';
@@ -98,6 +103,27 @@ const apiGarageRepository: GarageRepository = {
   },
 };
 
+const apiReviewRepository: ReviewRepository = {
+  list(query: ReviewQuery, signal?: AbortSignal): Promise<Paginated<Review>> {
+    return get<Paginated<Review>>(
+      `/garages/${encodeURIComponent(query.garageId)}/reviews${queryString({
+        sort: query.sort,
+        rating: query.rating,
+        page: query.page,
+        pageSize: query.pageSize,
+      })}`,
+      signal,
+    );
+  },
+
+  summary(garageId: string, signal?: AbortSignal): Promise<ReviewSummary> {
+    return get<ReviewSummary>(
+      `/garages/${encodeURIComponent(garageId)}/reviews/summary`,
+      signal,
+    );
+  },
+};
+
 const apiEnquiryRepository: EnquiryRepository = {
   create(payload: EnquiryPayload, signal?: AbortSignal): Promise<Enquiry> {
     return post<Enquiry>('/enquiries', payload, signal);
@@ -107,6 +133,7 @@ const apiEnquiryRepository: EnquiryRepository = {
 export const apiDataSource: DataSource = {
   vehicles: apiVehicleRepository,
   garages: apiGarageRepository,
+  reviews: apiReviewRepository,
   enquiries: apiEnquiryRepository,
 };
 

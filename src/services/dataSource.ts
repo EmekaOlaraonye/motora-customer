@@ -1,6 +1,7 @@
 import { apiDataSource } from './repositories/api';
 import { mockEnquiryRepository } from './repositories/mock/mockEnquiryRepository';
 import { mockGarageRepository } from './repositories/mock/mockGarageRepository';
+import { mockReviewRepository } from './repositories/mock/mockReviewRepository';
 import { mockVehicleRepository } from './repositories/mock/mockVehicleRepository';
 import type { DataSource } from './repositories/types';
 
@@ -15,6 +16,7 @@ import type { DataSource } from './repositories/types';
 const mockDataSource: DataSource = {
   vehicles: mockVehicleRepository,
   garages: mockGarageRepository,
+  reviews: mockReviewRepository,
   enquiries: mockEnquiryRepository,
 };
 

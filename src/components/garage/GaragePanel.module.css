@@ -50,6 +50,20 @@
 }
 
 .rating { display: inline-flex; align-items: center; gap: 3px; font-weight: 600; color: var(--navy); }
+
+.ratingLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--text-muted);
+  border-radius: var(--radius-pill);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.ratingLink:hover { color: var(--blue-700); }
+.ratingLink:hover .rating { color: var(--blue-700); }
+
+.noReviews { color: var(--text-muted); }
 .ratingStar { color: var(--amber); fill: var(--amber); }
 
 .details {

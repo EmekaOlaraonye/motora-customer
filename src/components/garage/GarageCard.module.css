@@ -97,6 +97,8 @@
 
 .ratingStar { color: var(--amber); fill: var(--amber); }
 
+.ratingCount { font-weight: 400; color: var(--text-muted); }
+
 .listings {
   margin-left: auto;
   font-weight: 700;
