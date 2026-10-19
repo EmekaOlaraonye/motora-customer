@@ -1,4 +1,5 @@
 import { createPortal } from 'react-dom';
+import { useAnalytics } from '../../hooks/useAnalytics';
 import { Link } from 'react-router-dom';
 import type { Garage, VehicleWithGarage } from '../../types';
 import {
@@ -38,6 +39,12 @@ export interface GaragePanelProps {
 
 export function GaragePanel({ garage, vehicle, onEnquire, sticky = false }: GaragePanelProps) {
   const message = vehicle ? whatsAppMessage(vehicle) : undefined;
+  const { trackNow } = useAnalytics();
+
+  // Sent immediately: these taps hand the page to the dialler or to WhatsApp,
+  // and a queued event would not survive the handover. They are also the
+  // events a garage is ultimately billed against.
+  const contactDetails = { garageId: garage.id, vehicleId: vehicle?.id };
 
   return (
     <section
@@ -121,6 +128,7 @@ export function GaragePanel({ garage, vehicle, onEnquire, sticky = false }: Gara
             variant="secondary"
             icon="phone"
             aria-label={`Call ${garage.name}`}
+            onClick={() => trackNow('contact_call', contactDetails)}
           >
             Call
           </ButtonLink>
@@ -134,6 +142,7 @@ export function GaragePanel({ garage, vehicle, onEnquire, sticky = false }: Gara
               variant="success"
               icon="whatsapp"
               aria-label={`WhatsApp ${garage.name}`}
+              onClick={() => trackNow('contact_whatsapp', contactDetails)}
             >
               WhatsApp
             </ButtonLink>
@@ -143,6 +152,7 @@ export function GaragePanel({ garage, vehicle, onEnquire, sticky = false }: Gara
               external
               variant="secondary"
               icon="mail"
+              onClick={() => trackNow('contact_email', contactDetails)}
             >
               Email
             </ButtonLink>
@@ -177,6 +187,9 @@ export function MobileContactBar({
   vehicle: VehicleWithGarage;
   onEnquire: () => void;
 }) {
+  const { trackNow } = useAnalytics();
+  const contactDetails = { garageId: vehicle.garageId, vehicleId: vehicle.id };
+
   return createPortal(
     <div className={styles.mobileBar}>
       <div className={styles.mobileBarPrice}>
@@ -193,6 +206,7 @@ export function MobileContactBar({
           variant="secondary"
           icon="phone"
           aria-label={`Call ${vehicle.garage.name}`}
+          onClick={() => trackNow('contact_call', contactDetails)}
         />
         {vehicle.garage.contact.whatsapp ? (
           <ButtonLink
@@ -203,6 +217,7 @@ export function MobileContactBar({
             variant="success"
             icon="whatsapp"
             aria-label={`WhatsApp ${vehicle.garage.name}`}
+            onClick={() => trackNow('contact_whatsapp', contactDetails)}
           />
         ) : null}
         <Button variant="primary" icon="mail" onClick={onEnquire}>

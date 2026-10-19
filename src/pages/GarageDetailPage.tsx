@@ -16,6 +16,7 @@ import { Skeleton } from '../components/ui/Skeleton';
 import { EmptyState, ErrorState, StateBlock } from '../components/ui/StateBlock';
 import { VehicleGrid } from '../components/vehicle/VehicleGrid';
 import { useGarage } from '../hooks/useGarages';
+import { useAnalytics, useTrackOnce } from '../hooks/useAnalytics';
 import { usePageMeta, siteOrigin } from '../hooks/usePageMeta';
 import { useVehicleQuery } from '../hooks/useVehicleQuery';
 import { useVehicleSearch } from '../hooks/useVehicles';
@@ -49,6 +50,9 @@ export function GarageDetailPage() {
     [garage.data],
   );
   usePageMeta(meta);
+  useTrackOnce('garage_view', garage.data?.id, { garageId: garage.data?.id });
+
+  const { trackNow } = useAnalytics();
 
   if (garage.loading) {
     return (
@@ -158,7 +162,14 @@ export function GarageDetailPage() {
           </div>
 
           <div className={styles.heroActions}>
-            <ButtonLink to={toTelHref(data.contact.phone)} external variant="primary" size="lg" icon="phone">
+            <ButtonLink
+              to={toTelHref(data.contact.phone)}
+              external
+              variant="primary"
+              size="lg"
+              icon="phone"
+              onClick={() => trackNow('contact_call', { garageId: data.id })}
+            >
               Call the garage
             </ButtonLink>
 
@@ -174,12 +185,20 @@ export function GarageDetailPage() {
                 variant="success"
                 size="lg"
                 icon="whatsapp"
+                onClick={() => trackNow('contact_whatsapp', { garageId: data.id })}
               >
                 WhatsApp
               </ButtonLink>
             ) : null}
 
-            <ButtonLink to={`mailto:${data.contact.email}`} external variant="onDark" size="lg" icon="mail">
+            <ButtonLink
+              to={`mailto:${data.contact.email}`}
+              external
+              variant="onDark"
+              size="lg"
+              icon="mail"
+              onClick={() => trackNow('contact_email', { garageId: data.id })}
+            >
               Email
             </ButtonLink>
           </div>

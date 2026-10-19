@@ -1,4 +1,5 @@
 import type {
+  AnalyticsEvent,
   Enquiry,
   EnquiryPayload,
   Garage,
@@ -43,6 +44,15 @@ export interface ReviewRepository {
   summary(garageId: string, signal?: AbortSignal): Promise<ReviewSummary>;
 }
 
+export interface AnalyticsRepository {
+  /**
+   * Records a batch of events. Fire-and-forget by contract: callers must not
+   * await it to decide what to render, and a rejection must never surface to
+   * the customer. Counting taps is not worth breaking a page over.
+   */
+  track(events: AnalyticsEvent[], signal?: AbortSignal): Promise<void>;
+}
+
 export interface EnquiryRepository {
   create(payload: EnquiryPayload, signal?: AbortSignal): Promise<Enquiry>;
 }
@@ -52,6 +62,7 @@ export interface DataSource {
   garages: GarageRepository;
   reviews: ReviewRepository;
   enquiries: EnquiryRepository;
+  analytics: AnalyticsRepository;
 }
 
 /** Convenience alias used by the mock layer. */

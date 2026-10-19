@@ -1,4 +1,5 @@
 import { apiDataSource } from './repositories/api';
+import { mockAnalyticsRepository } from './repositories/mock/mockAnalyticsRepository';
 import { mockEnquiryRepository } from './repositories/mock/mockEnquiryRepository';
 import { mockGarageRepository } from './repositories/mock/mockGarageRepository';
 import { mockReviewRepository } from './repositories/mock/mockReviewRepository';
@@ -18,6 +19,7 @@ const mockDataSource: DataSource = {
   garages: mockGarageRepository,
   reviews: mockReviewRepository,
   enquiries: mockEnquiryRepository,
+  analytics: mockAnalyticsRepository,
 };
 
 function resolveDataSource(): DataSource {

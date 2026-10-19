@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useFinanceSettings } from '../../context/FinanceSettingsContext';
+import { useTrackOnce } from '../../hooks/useAnalytics';
 import { formatPrice } from '../../utils/format';
 import {
   BALLOON_BOUNDS,
@@ -17,7 +18,15 @@ import styles from './FinanceCalculator.module.css';
  * this tool is one where the customer can see exactly what produced the
  * number. It is not a quote, an approval, or a recommendation to borrow.
  */
-export function FinanceCalculator({ price }: { price: number }) {
+export function FinanceCalculator({
+  price,
+  garageId,
+  vehicleId,
+}: {
+  price: number;
+  garageId?: string;
+  vehicleId?: string;
+}) {
   const { settings, update, reset, isDefault } = useFinanceSettings();
 
   const deposit = Math.round((price * settings.depositPercent) / 100);
@@ -32,6 +41,15 @@ export function FinanceCalculator({ price }: { price: number }) {
         balloonPercent: settings.balloonPercent,
       }),
     [price, deposit, settings.termMonths, settings.annualRate, settings.balloonPercent],
+  );
+
+  // Fires once per listing rather than on every slider movement. The useful
+  // signal is that someone opened the calculator at all, and at what price.
+  useTrackOnce(
+    'finance_estimated',
+    vehicleId,
+    { garageId, vehicleId },
+    { price, termMonths: settings.termMonths, depositPercent: settings.depositPercent },
   );
 
   return (

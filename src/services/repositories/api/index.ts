@@ -1,4 +1,5 @@
 import type {
+  AnalyticsEvent,
   Enquiry,
   EnquiryPayload,
   Garage,
@@ -11,6 +12,7 @@ import type {
   VehicleWithGarage,
 } from '../../../types';
 import type {
+  AnalyticsRepository,
   DataSource,
   EnquiryRepository,
   GarageRepository,
@@ -130,11 +132,18 @@ const apiEnquiryRepository: EnquiryRepository = {
   },
 };
 
+const apiAnalyticsRepository: AnalyticsRepository = {
+  track(events: AnalyticsEvent[], signal?: AbortSignal): Promise<void> {
+    return post<void>('/events', { events }, signal);
+  },
+};
+
 export const apiDataSource: DataSource = {
   vehicles: apiVehicleRepository,
   garages: apiGarageRepository,
   reviews: apiReviewRepository,
   enquiries: apiEnquiryRepository,
+  analytics: apiAnalyticsRepository,
 };
 
 export { ValidationError } from './httpClient';

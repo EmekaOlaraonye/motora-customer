@@ -15,6 +15,7 @@ import { MAX_COMPARE, useCompare } from '../context/CompareContext';
 import { useFinanceSettings } from '../context/FinanceSettingsContext';
 import { useSavedVehicles } from '../context/SavedVehiclesContext';
 import { useToast } from '../context/ToastContext';
+import { useTrackOnce } from '../hooks/useAnalytics';
 import { usePageMeta, siteOrigin } from '../hooks/usePageMeta';
 import { useRelatedVehicles, useVehicle } from '../hooks/useVehicles';
 import type { VehicleWithGarage } from '../types';
@@ -105,6 +106,13 @@ export function VehicleDetailPage() {
     [vehicle],
   );
   usePageMeta(meta);
+
+  // Keyed on the vehicle id, so a re-render or a StrictMode double-invoke
+  // cannot inflate the count a garage is shown.
+  useTrackOnce('listing_view', vehicle?.id, {
+    garageId: vehicle?.garageId,
+    vehicleId: vehicle?.id,
+  });
 
   if (loading) return <DetailSkeleton />;
 
@@ -306,7 +314,11 @@ export function VehicleDetailPage() {
               Adjust the deposit, term and rate to match what your bank has offered you. Nothing
               here is a quote.
             </p>
-            <FinanceCalculator price={vehicle.price} />
+            <FinanceCalculator
+              price={vehicle.price}
+              garageId={vehicle.garageId}
+              vehicleId={vehicle.id}
+            />
           </section>
 
           <section className={styles.section}>

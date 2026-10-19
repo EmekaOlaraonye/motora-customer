@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useToast } from '../../context/ToastContext';
+import { useAnalytics } from '../../hooks/useAnalytics';
 import { buildEnquiryPayload, submitEnquiry } from '../../services';
 import { toApiError } from '../../services/ApiError';
 import type { EnquiryDraft, EnquiryFieldErrors, PreferredContactMethod, VehicleWithGarage } from '../../types';
@@ -30,6 +31,7 @@ export function EnquiryForm({
   onDone?: () => void;
 }) {
   const { showToast } = useToast();
+  const { track } = useAnalytics();
 
   const [draft, setDraft] = useState<EnquiryDraft>({
     name: '',
@@ -65,6 +67,13 @@ export function EnquiryForm({
     try {
       await submitEnquiry(buildEnquiryPayload(draft, vehicle));
       setSubmitted(true);
+
+      // Only a delivered enquiry counts. A failed submission is not a lead.
+      track('enquiry_sent', {
+        garageId: vehicle.garageId,
+        vehicleId: vehicle.id,
+        metadata: { preferredContact: draft.preferredContact, price: vehicle.price },
+      });
       showToast({
         tone: 'success',
         title: 'Enquiry sent',

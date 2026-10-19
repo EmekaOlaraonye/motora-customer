@@ -118,6 +118,36 @@ would mean a dozen localStorage writes per change.
 Cards label the figure `est.` and carry the full assumptions in a tooltip.
 Sold listings show no repayment figure at all.
 
+### Analytics
+
+Instrumentation exists for one commercial reason: a garage will eventually be
+asked to pay, and the first thing they will ask is what they got for it.
+"47 buyers tapped your number last month" is only answerable if the taps were
+counted at the time.
+
+[`trackEvent`](src/services/analyticsService.ts) queues and batches, because
+mobile data costs real money here and one request per tap is not acceptable.
+Three rules shape it:
+
+- **It never breaks the page.** Every failure is swallowed. A dropped count is
+  a rounding error; a white screen is not.
+- **It never loses the last events of a visit**, which are the valuable ones —
+  tapping "call" is usually the last thing someone does. Flushes are bound to
+  `pagehide` and `visibilitychange`, and contact taps flush immediately because
+  they hand the page to the dialler or to WhatsApp.
+- **It never double-counts.** [`useTrackOnce`](src/hooks/useAnalytics.ts) keys
+  on an id, so re-renders and StrictMode's double-invoked effects cannot
+  inflate a number a garage can catch you on.
+
+Events are first-party and carry no personal details. `sessionId` lives in
+`sessionStorage`, so it identifies a browsing session and dies with the tab —
+it cannot recognise a returning visitor. Anything identifying a customer
+belongs on an enquiry, which they chose to send.
+
+`GarageMetrics` is the rollup the admin dashboard needs. Set
+`VITE_DEBUG_ANALYTICS=true` to log events and get `window.__motoraAnalytics`
+for inspecting it; both are stripped from production builds.
+
 ### Reviews
 
 A star rating with nothing readable behind it is a weak trust signal at best,
