@@ -165,6 +165,22 @@ Reviews follow the same repository seam as everything else —
 [`ReviewRepository`](src/services/repositories/types.ts) with mock and API
 implementations.
 
+### Recently viewed
+
+Buying a car takes days and several sittings. Someone who looked at four
+bakkies on Tuesday should not have to find them again on Thursday, and the
+browse page is not where they left off.
+[`RecentlyViewedContext`](src/context/RecentlyViewedContext.tsx) keeps the last
+12, newest first, deduplicated — revisiting a listing moves it to the front
+rather than adding it twice.
+
+Distinct from the shortlist on purpose: saving is a decision, viewing is not.
+Plenty of cars are worth returning to without being worth a heart.
+
+The section renders on the homepage, under a listing (excluding the one being
+viewed) and on an empty shortlist. It hides itself below two cars, so it never
+appears as an empty shell on a first visit.
+
 ### Comparison
 
 Comparing is a separate set from the saved shortlist, and deliberately so:

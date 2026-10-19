@@ -4,6 +4,7 @@ import { HeroSearch } from '../components/search/HeroSearch';
 import { ButtonLink } from '../components/ui/Button';
 import { Icon, type IconName } from '../components/ui/Icon';
 import { ErrorState } from '../components/ui/StateBlock';
+import { RecentlyViewed } from '../components/vehicle/RecentlyViewed';
 import { VehicleGrid } from '../components/vehicle/VehicleGrid';
 import { BODY_TYPES, GABORONE_AREAS } from '../data/taxonomy';
 import { useGarages } from '../hooks/useGarages';
@@ -124,6 +125,15 @@ export function HomePage() {
               </Link>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="section-tight">
+        <div className="container">
+          <RecentlyViewed
+            limit={4}
+            subtitle="Cars you looked at recently, still here when you are ready."
+          />
         </div>
       </section>
 

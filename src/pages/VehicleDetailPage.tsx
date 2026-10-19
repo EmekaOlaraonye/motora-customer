@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { EnquiryForm } from '../components/enquiry/EnquiryForm';
 import { FinanceCalculator } from '../components/finance/FinanceCalculator';
@@ -10,8 +10,10 @@ import { Modal } from '../components/ui/Modal';
 import { Skeleton } from '../components/ui/Skeleton';
 import { ErrorState, StateBlock } from '../components/ui/StateBlock';
 import { VehicleGallery } from '../components/vehicle/VehicleGallery';
+import { RecentlyViewed } from '../components/vehicle/RecentlyViewed';
 import { VehicleGrid } from '../components/vehicle/VehicleGrid';
 import { MAX_COMPARE, useCompare } from '../context/CompareContext';
+import { useRecentlyViewed } from '../context/RecentlyViewedContext';
 import { useFinanceSettings } from '../context/FinanceSettingsContext';
 import { useSavedVehicles } from '../context/SavedVehiclesContext';
 import { useToast } from '../context/ToastContext';
@@ -95,6 +97,7 @@ export function VehicleDetailPage() {
   const { isSaved, toggleSaved } = useSavedVehicles();
   const { isCompared, toggleCompare } = useCompare();
   const { settings } = useFinanceSettings();
+  const { recordView } = useRecentlyViewed();
   const { showToast } = useToast();
 
   const [enquiryOpen, setEnquiryOpen] = useState(false);
@@ -109,6 +112,13 @@ export function VehicleDetailPage() {
 
   // Keyed on the vehicle id, so a re-render or a StrictMode double-invoke
   // cannot inflate the count a garage is shown.
+  // Recorded on the same terms as the analytics view: once the listing has
+  // actually resolved, and once per vehicle.
+  const viewedId = vehicle?.id;
+  useEffect(() => {
+    if (viewedId) recordView(viewedId);
+  }, [viewedId, recordView]);
+
   useTrackOnce('listing_view', vehicle?.id, {
     garageId: vehicle?.garageId,
     vehicleId: vehicle?.id,
@@ -431,6 +441,10 @@ export function VehicleDetailPage() {
           <VehicleGrid vehicles={related.data ?? []} loading={related.loading} columns="four" />
         </section>
       ) : null}
+
+      <section className={`container ${styles.related}`}>
+        <RecentlyViewed excludeId={vehicle.id} limit={4} />
+      </section>
 
       <MobileContactBar vehicle={vehicle} onEnquire={() => setEnquiryOpen(true)} />
 

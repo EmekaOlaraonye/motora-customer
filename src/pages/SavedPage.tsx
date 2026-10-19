@@ -1,5 +1,6 @@
 import { ButtonLink, Button } from '../components/ui/Button';
 import { EmptyState, ErrorState } from '../components/ui/StateBlock';
+import { RecentlyViewed } from '../components/vehicle/RecentlyViewed';
 import { VehicleGrid } from '../components/vehicle/VehicleGrid';
 import { MAX_COMPARE, useCompare } from '../context/CompareContext';
 import { useSavedVehicles } from '../context/SavedVehiclesContext';
@@ -61,6 +62,16 @@ export function SavedPage() {
               </ButtonLink>
             }
           />
+        ) : null}
+
+        {count === 0 ? (
+          <div style={{ marginTop: 'var(--space-16)' }}>
+            <RecentlyViewed
+              limit={4}
+              title="Cars you have looked at"
+              subtitle="Not saved, but not forgotten. Tap the heart on any of these to shortlist it."
+            />
+          </div>
         ) : (
           <>
             <div className={styles.toolbar}>
