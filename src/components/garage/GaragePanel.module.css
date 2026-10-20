@@ -85,6 +85,30 @@
 
 .detailRow svg { color: var(--grey-400); flex-shrink: 0; margin-top: 2px; }
 
+/* The address is tappable: on a phone this hands off to the maps app, which
+   is what someone reading a listing actually wants from it. */
+.directionsRow {
+  color: var(--text-secondary);
+  border-radius: var(--radius-md);
+  padding: var(--space-2);
+  margin: calc(var(--space-2) * -1);
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+
+.directionsRow:hover { background-color: var(--blue-50); color: var(--text-secondary); }
+
+.directionsCue {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 650;
+  color: var(--blue);
+}
+
+.directionsRow:hover .directionsCue { color: var(--blue-700); }
+
 .detailLink { color: var(--text-secondary); }
 .detailLink:hover { color: var(--blue); }
 

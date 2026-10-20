@@ -165,6 +165,27 @@ Reviews follow the same repository seam as everything else —
 [`ReviewRepository`](src/services/repositories/types.ts) with mock and API
 implementations.
 
+### Directions
+
+Garages carry coordinates, and the obvious thing to do with them is embed a
+map. [`directionsHref`](src/utils/directions.ts) does the useful thing
+instead: it links out to the customer's own maps app.
+
+Someone reading a listing wants to drive to the yard, not explore Gaborone.
+Handing off to the maps app already on their phone does that better than a
+widget could, and avoids a tile provider, an API key and a per-load bill. The
+Google universal Maps URL is used because it resolves everywhere — the app on
+Android, the app or Safari on iOS, the web on desktop — where a `geo:` URI
+would be neater on Android and broken elsewhere.
+
+Coordinates are preferred over the address string: plot numbers around
+Gaborone do not geocode reliably, and a pin on the wrong plot is worse than no
+pin. The address is the fallback, with "Botswana" appended to anchor it.
+
+An embedded, browsable map is a different feature — it only earns its running
+cost if customers want to search by proximity, which needs geolocation and
+distance filtering in the query layer rather than a map widget.
+
 ### Search alerts
 
 Stock in Gaborone turns over weekly, so a search that finds nothing usually

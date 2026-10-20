@@ -20,6 +20,7 @@ import { useAnalytics, useTrackOnce } from '../hooks/useAnalytics';
 import { usePageMeta, siteOrigin } from '../hooks/usePageMeta';
 import { useVehicleQuery } from '../hooks/useVehicleQuery';
 import { useVehicleSearch } from '../hooks/useVehicles';
+import { directionsHref } from '../utils/directions';
 import { pluralise, toTelHref, toWhatsAppHref } from '../utils/format';
 import { buildGarageMeta } from '../utils/meta';
 import { useMemo, useState } from 'react';
@@ -217,6 +218,17 @@ export function GarageDetailPage() {
                 {data.location.addressLine}
                 <br />
                 {data.location.area}, {data.location.city}
+                <a
+                  className={styles.directionsLink}
+                  href={directionsHref(data.location, data.name)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackNow('directions_opened', { garageId: data.id })}
+                >
+                  <Icon name="map-pin" size={13} />
+                  Get directions
+                  <Icon name="external" size={12} />
+                </a>
               </span>
             </span>
           </div>

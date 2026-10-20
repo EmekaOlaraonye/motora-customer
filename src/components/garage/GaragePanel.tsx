@@ -9,6 +9,7 @@ import {
   toWhatsAppHref,
   vehicleTitle,
 } from '../../utils/format';
+import { directionsHref } from '../../utils/directions';
 import { Badge } from '../ui/Badge';
 import { Button, ButtonLink } from '../ui/Button';
 import { Icon } from '../ui/Icon';
@@ -87,14 +88,24 @@ export function GaragePanel({ garage, vehicle, onEnquire, sticky = false }: Gara
       </header>
 
       <div className={styles.details}>
-        <p className={styles.detailRow}>
+        <a
+          className={`${styles.detailRow} ${styles.directionsRow}`}
+          href={directionsHref(garage.location, garage.name)}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => trackNow('directions_opened', { garageId: garage.id })}
+        >
           <Icon name="map-pin" size={16} />
           <span>
             {garage.location.addressLine}
             <br />
             {garage.location.area}, {garage.location.city}
+            <span className={styles.directionsCue}>
+              Get directions
+              <Icon name="external" size={12} />
+            </span>
           </span>
-        </p>
+        </a>
 
         <p className={styles.detailRow}>
           <Icon name="clock" size={16} />

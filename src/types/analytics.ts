@@ -22,6 +22,8 @@ export type AnalyticsEventType =
   | 'contact_whatsapp'
   /** The email button was tapped. */
   | 'contact_email'
+  /** Directions to the garage were opened in a maps app. */
+  | 'directions_opened'
   /** An enquiry form was submitted successfully. */
   | 'enquiry_sent'
   /** A customer adjusted the finance calculator — a signal of buying intent. */
@@ -72,6 +74,8 @@ export interface GarageMetrics {
   callClicks: number;
   whatsappClicks: number;
   emailClicks: number;
+  /** Someone asking how to drive to the yard is close to visiting it. */
+  directionsOpened: number;
   enquiries: number;
 
   /** Listing views broken down by vehicle, highest first. */

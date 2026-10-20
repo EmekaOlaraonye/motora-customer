@@ -65,6 +65,7 @@ export function rollUpGarageMetrics(garageId: string): GarageMetrics {
     callClicks: count('contact_call'),
     whatsappClicks: count('contact_whatsapp'),
     emailClicks: count('contact_email'),
+    directionsOpened: count('directions_opened'),
     enquiries: count('enquiry_sent'),
     topListings: [...viewsByVehicle.entries()]
       .map(([vehicleId, views]) => ({ vehicleId, views }))
