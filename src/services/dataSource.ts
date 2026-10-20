@@ -1,4 +1,5 @@
 import { apiDataSource } from './repositories/api';
+import { mockAlertRepository } from './repositories/mock/mockAlertRepository';
 import { mockAnalyticsRepository } from './repositories/mock/mockAnalyticsRepository';
 import { mockEnquiryRepository } from './repositories/mock/mockEnquiryRepository';
 import { mockGarageRepository } from './repositories/mock/mockGarageRepository';
@@ -19,6 +20,7 @@ const mockDataSource: DataSource = {
   garages: mockGarageRepository,
   reviews: mockReviewRepository,
   enquiries: mockEnquiryRepository,
+  alerts: mockAlertRepository,
   analytics: mockAnalyticsRepository,
 };
 

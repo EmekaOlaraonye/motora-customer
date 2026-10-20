@@ -1,4 +1,9 @@
-import type { EnquiryDraft, EnquiryFieldErrors } from '../types';
+import type {
+  EnquiryDraft,
+  EnquiryFieldErrors,
+  SearchAlertDraft,
+  SearchAlertFieldErrors,
+} from '../types';
 
 /**
  * Enquiry validation.
@@ -36,4 +41,32 @@ export function validateEnquiry(draft: EnquiryDraft): EnquiryFieldErrors {
 
 export function hasErrors(errors: EnquiryFieldErrors): boolean {
   return Object.keys(errors).length > 0;
+}
+
+/**
+ * Search alert validation.
+ *
+ * Email is required because it is the one channel that works without a paid
+ * messaging API. WhatsApp is optional, but if the customer asks to be reached
+ * there, a number has to be present.
+ */
+export function validateSearchAlert(draft: SearchAlertDraft): SearchAlertFieldErrors {
+  const errors: SearchAlertFieldErrors = {};
+
+  const email = draft.email.trim();
+  if (!email) errors.email = 'An email address is required.';
+  else if (!EMAIL_PATTERN.test(email)) errors.email = 'That does not look like a valid email address.';
+
+  if (draft.channels.length === 0) {
+    errors.channels = 'Choose at least one way to be contacted.';
+  }
+
+  if (draft.channels.includes('whatsapp')) {
+    const digits = (draft.whatsapp ?? '').replace(/\D/g, '');
+    if (!digits) errors.whatsapp = 'Add a WhatsApp number, or untick WhatsApp.';
+    else if (digits.length < 8) errors.whatsapp = 'That number looks too short.';
+    else if (digits.length > 15) errors.whatsapp = 'That number looks too long.';
+  }
+
+  return errors;
 }

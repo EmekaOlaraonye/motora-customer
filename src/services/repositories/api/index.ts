@@ -7,6 +7,8 @@ import type {
   Review,
   ReviewQuery,
   ReviewSummary,
+  SearchAlert,
+  SearchAlertPayload,
   VehicleQuery,
   VehicleSearchResult,
   VehicleWithGarage,
@@ -17,6 +19,7 @@ import type {
   EnquiryRepository,
   GarageRepository,
   ReviewRepository,
+  SearchAlertRepository,
   VehicleRepository,
 } from '../types';
 import { get, post, queryString } from './httpClient';
@@ -132,6 +135,12 @@ const apiEnquiryRepository: EnquiryRepository = {
   },
 };
 
+const apiAlertRepository: SearchAlertRepository = {
+  create(payload: SearchAlertPayload, signal?: AbortSignal): Promise<SearchAlert> {
+    return post<SearchAlert>('/alerts', payload, signal);
+  },
+};
+
 const apiAnalyticsRepository: AnalyticsRepository = {
   track(events: AnalyticsEvent[], signal?: AbortSignal): Promise<void> {
     return post<void>('/events', { events }, signal);
@@ -143,6 +152,7 @@ export const apiDataSource: DataSource = {
   garages: apiGarageRepository,
   reviews: apiReviewRepository,
   enquiries: apiEnquiryRepository,
+  alerts: apiAlertRepository,
   analytics: apiAnalyticsRepository,
 };
 

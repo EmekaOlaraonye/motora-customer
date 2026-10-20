@@ -47,3 +47,12 @@
 .results { min-width: 0; }
 
 .drawerFooterButtons { display: flex; gap: var(--space-3); width: 100%; }
+
+/* Offers an alert on a search that did return results — the customer may
+   still be waiting for something better than what is on the floor today. */
+.alertRow {
+  display: flex;
+  margin-top: calc(var(--space-3) * -1);
+  margin-bottom: var(--space-5);
+  margin-left: calc(var(--space-3) * -1);
+}

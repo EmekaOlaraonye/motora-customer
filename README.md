@@ -165,6 +165,28 @@ Reviews follow the same repository seam as everything else —
 [`ReviewRepository`](src/services/repositories/types.ts) with mock and API
 implementations.
 
+### Search alerts
+
+Stock in Gaborone turns over weekly, so a search that finds nothing usually
+means the customer arrived between deliveries — not that there is nothing for
+them. An empty result is therefore the point at which someone is most clearly
+in the market and least well served, and it is where an alert is offered.
+A second, quieter entry point sits above results that did return matches.
+
+[`describeQuery`](src/utils/describeQuery.ts) writes the search back in plain
+language — "Toyota bakkies under P300,000 in Tlokweng" — because someone
+agreeing to be emailed needs to see exactly what they signed up for. The
+description is **stored alongside the query**, not recomputed later, so a
+message months from now still says what was agreed to.
+
+`buildAlertPayload` strips `page`, `pageSize` and `sort`: those describe how
+results were being displayed, and "page 3" has no meaning in an alert sent
+next week.
+
+Email is required because it is the only channel that works without a paid
+messaging API; WhatsApp is offered alongside it and is far more likely to be
+read here, but needs the WhatsApp Business API to actually deliver.
+
 ### Recently viewed
 
 Buying a car takes days and several sittings. Someone who looked at four

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { FilterPanel, FilterSidebar } from '../components/search/FilterPanel';
+import { SearchAlertForm } from '../components/search/SearchAlertForm';
 import {
   ActiveFilterChips,
   ResultsToolbar,
@@ -7,7 +8,7 @@ import {
 } from '../components/search/ResultsToolbar';
 import { Button } from '../components/ui/Button';
 import { TextField } from '../components/ui/Field';
-import { Drawer } from '../components/ui/Modal';
+import { Drawer, Modal } from '../components/ui/Modal';
 import { Pagination } from '../components/ui/Pagination';
 import { EmptyState, ErrorState } from '../components/ui/StateBlock';
 import { VehicleGrid } from '../components/vehicle/VehicleGrid';
@@ -17,6 +18,7 @@ import { useVehicleQuery } from '../hooks/useVehicleQuery';
 import { useVehicleSearch } from '../hooks/useVehicles';
 import { buildBrowseMeta } from '../utils/meta';
 import { searchParamsFromQuery } from '../utils/queryParams';
+import { describeQuery } from '../utils/describeQuery';
 import { countActiveFilters } from '../utils/vehicleQuery';
 import styles from './VehiclesPage.module.css';
 
@@ -25,6 +27,7 @@ export function VehiclesPage() {
   const search = useVehicleSearch(query);
 
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
 
   // The visible search box is local so typing stays responsive; the URL is
   // updated only once the customer pauses.
@@ -113,6 +116,19 @@ export function VehiclesPage() {
 
           <ActiveFilterChips query={query} onChange={updateQuery} onClear={clearQuery} />
 
+          {hasFilters && vehicles.length > 0 ? (
+            <div className={styles.alertRow}>
+              <Button
+                variant="ghost"
+                size="sm"
+                icon="mail"
+                onClick={() => setAlertOpen(true)}
+              >
+                Alert me about new {describeQuery(query)}
+              </Button>
+            </div>
+          ) : null}
+
           {search.error ? (
             <ErrorState error={search.error} onRetry={search.retry} />
           ) : !search.loading && vehicles.length === 0 ? (
@@ -121,14 +137,19 @@ export function VehiclesPage() {
               title="No cars match those filters"
               description={
                 hasFilters
-                  ? 'Try widening your price range, removing a filter, or searching a different make. New stock is listed every week.'
+                  ? 'Stock changes every week, so this often just means you arrived between deliveries. We can let you know the moment a match is listed.'
                   : 'There are no listings to show right now. Please check back shortly.'
               }
               actions={
                 hasFilters ? (
-                  <Button variant="primary" onClick={clearQuery}>
-                    Clear all filters
-                  </Button>
+                  <>
+                    <Button variant="primary" icon="mail" onClick={() => setAlertOpen(true)}>
+                      Tell me when one arrives
+                    </Button>
+                    <Button variant="secondary" onClick={clearQuery}>
+                      Clear all filters
+                    </Button>
+                  </>
                 ) : null
               }
             />
@@ -154,6 +175,15 @@ export function VehiclesPage() {
           )}
         </div>
       </div>
+
+      <Modal
+        open={alertOpen}
+        onClose={() => setAlertOpen(false)}
+        title="Get an alert for this search"
+        subtitle="Stock in Gaborone turns over weekly"
+      >
+        <SearchAlertForm query={query} onDone={() => setAlertOpen(false)} />
+      </Modal>
 
       <Drawer
         open={filtersOpen}

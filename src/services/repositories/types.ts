@@ -7,6 +7,8 @@ import type {
   Review,
   ReviewQuery,
   ReviewSummary,
+  SearchAlert,
+  SearchAlertPayload,
   Vehicle,
   VehicleQuery,
   VehicleSearchResult,
@@ -44,6 +46,11 @@ export interface ReviewRepository {
   summary(garageId: string, signal?: AbortSignal): Promise<ReviewSummary>;
 }
 
+export interface SearchAlertRepository {
+  /** Registers a saved search. Rejects with a validation error on a bad address. */
+  create(payload: SearchAlertPayload, signal?: AbortSignal): Promise<SearchAlert>;
+}
+
 export interface AnalyticsRepository {
   /**
    * Records a batch of events. Fire-and-forget by contract: callers must not
@@ -62,6 +69,7 @@ export interface DataSource {
   garages: GarageRepository;
   reviews: ReviewRepository;
   enquiries: EnquiryRepository;
+  alerts: SearchAlertRepository;
   analytics: AnalyticsRepository;
 }
 
